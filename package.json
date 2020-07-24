@@ -17,5 +17,8 @@
     "typescript": "^3.9.7",
     "uglify": "^0.1.5",
     "vinyl-source-stream": "^2.0.0"
+  },
+  "dependencies": {
+    "mathjs": "^7.1.0"
   }
 }
