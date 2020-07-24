@@ -35,10 +35,11 @@ export default class View {
         this.context.resetTransform();
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+        this.context.scale(1, -1);
         this.context.translate(
             -this.translation.x * this.zoom.x,
-            -this.translation.y * this.zoom.y
-        )
+            this.translation.y * this.zoom.y
+        );
         this.items.forEach((item) => {
             item.render(
                 this.context,

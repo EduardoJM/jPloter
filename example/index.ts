@@ -1,10 +1,10 @@
 import jPloter from '../src';
-import View from '../src/View';
 
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('plot') as HTMLCanvasElement;
 
     const view = new jPloter.View(canvas);
+    /*
     view.items.push(new jPloter.Point({
         x: 0,
         y: 0,
@@ -30,9 +30,12 @@ document.addEventListener('DOMContentLoaded', () => {
         y: 4,
         color: 'red',
     }));
+    */
+    view.items.push(new jPloter.PlotFunction());
+    view.items.push(new jPloter.Axis());
     
     view.zoom = { x: 100, y: 100 };
-    view.translation = { x: -1, y: -1 };
+    view.translation = { x: -2.5, y: -2.5 };
 
     let start = { x: 0, y: 0 };
     let capturing = false;
