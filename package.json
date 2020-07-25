@@ -29,6 +29,6 @@
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/EduardoJM/jploter"
+    "url": "https://github.com/EduardoJM/jplot"
   }
 }
