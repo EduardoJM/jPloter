@@ -41,12 +41,21 @@ export default class View {
             this.translation.y * this.zoom.y
         );
         this.items.forEach((item) => {
-            item.render(
-                this.context,
-                this,
-                this.zoom,
-                this.translation
-            );
+            item.render(this);
         });
+    }
+
+    spacePointToCanvas(x: number, y: number) {
+        return {
+            x: x * this.zoom.x,
+            y: y * this.zoom.y,
+        };
+    }
+
+    canvasPointToSpace(x: number, y: number) {
+        return {
+            x: x / this.zoom.x,
+            y: y / this.zoom.y,
+        };
     }
 }

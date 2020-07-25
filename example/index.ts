@@ -8,12 +8,15 @@ document.addEventListener('DOMContentLoaded', () => {
     view.items.push(new jPloter.Point({
         x: 0,
         y: 0,
-        color: 'black',
+        color: 'green',
     }));
     view.items.push(new jPloter.Point({
         x: 1,
         y: 1,
-        color: 'blue',
+        color: '#CCC',
+        stroke: true,
+        strokeColor: '#000',
+        strokeWidth: 4
     }));
     view.items.push(new jPloter.Point({
         x: 2,
@@ -31,7 +34,11 @@ document.addEventListener('DOMContentLoaded', () => {
         color: 'red',
     }));
     */
-    view.items.push(new jPloter.PlotFunction());
+    const func = new jPloter.PlotFunction({
+        color: 'black',
+        lineWidth: 2,
+    })
+    view.items.push(func);
     view.items.push(new jPloter.Axis());
     
     view.zoom = { x: 100, y: 100 };
@@ -67,6 +74,14 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             view.render();
         }
+    });
+
+    const input = document.getElementById('func') as HTMLInputElement;
+    input.addEventListener('keyup', () => {
+        const functionValue = input.value;
+        func.function = functionValue;
+        console.log("set");
+        view.render();
     });
     
     view.render();

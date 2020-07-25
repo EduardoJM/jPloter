@@ -10,12 +10,21 @@
             padding: 0;
             box-sizing: border-box;
         }
-        body { background: #000; }
+        body { background: #000; color: #FFF; }
+        .container { width: 500px; margin: 0 auto; display: flex; flex-direction: column; }
         #plot { background: #222; }
+        .func-container { width: 100%; display: flex; flex-direction: row; align-items: center; justify-content: flex-start; }
+        #func { flex: 1; }
     </style>
 </head>
 <body>
-    <canvas id="plot" width="500" height="500"></canvas>
+    <div class="container">
+        <canvas id="plot" width="500" height="500"></canvas>
+        <div class="func-container">
+            y=
+            <input type="text" id="func" />
+        </div>
+    </div>
     
     <script src="dist/min/bundle.js"></script>
 </body>

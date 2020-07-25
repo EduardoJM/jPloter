@@ -1,58 +1,86 @@
 import RenderItem from './RenderItem';
 import View from '../View';
+import { evaluate } from 'mathjs';
 
-export default class PlotFunction implements RenderItem {
-    render(
-        context: CanvasRenderingContext2D,
-        view: View,
-        zoom: { x: number; y: number; },
-        translate: { x: number; y: number; }
-    ) {
+export interface FunctionCreateOptions {
+    resolution?: number;
+    color?: string;
+    lineWidth?: number;
+    function?: string;
+}
+
+export default class Function implements RenderItem {
+    resolution: number;
+    
+    color: string;
+
+    lineWidth: number;
+
+    function: string;
+
+    constructor(opts?: FunctionCreateOptions) {
+        this.resolution = 200;
+        this.color = 'black';
+        this.lineWidth = 1;
+        this.function = '';
+
+        if (opts) {
+            if (opts.resolution !== null && opts.resolution !== undefined) {
+                this.resolution = opts.resolution;
+            }
+            if (opts.color !== null && opts.color !== undefined) {
+                this.color = opts.color;
+            }
+            if (opts.lineWidth !== null && opts.lineWidth !== undefined) {
+                this.lineWidth = opts.lineWidth;
+            }
+            if (opts.function !== null && opts.function !== undefined) {
+                this.function = opts.function;
+            }
+        }
+    }
+
+    render(view: View) {
+        if (this.lineWidth <= 0 || this.function === '') {
+            return;
+        }
+        // get the space left position
         const left = view.translation.x;
-        const top = view.translation.y;
-        const right = left + view.canvas.width / view.zoom.x;
-        const bottom = top + view.canvas.width / view.zoom.y;
-        
-        const steps = 200;
-        
-        const interval = (right - left) / steps;
-
-        context.beginPath();
+        // get the space right position
+        const { x: width } = view.canvasPointToSpace(
+            view.canvas.width,
+            view.canvas.height
+        );
+        const right = left + width;
+        // get the interval size
+        const interval = (right - left) / this.resolution;
+        // begin the path
+        view.context.beginPath();
         let x = left;
-        for (let i = 0; i < steps; i += 1) {
-            const y = Math.exp(-x) * x * x;
+        for (let i = 0; i < this.resolution; i += 1) {
+            let y = 0;
+            try {
+                y = evaluate(this.function, { x });
+            } catch (e) {
+                continue;
+            }
 
             const displayX = x * view.zoom.x;
             const displayY = y * view.zoom.y;
 
             if (i === 0) {
-                context.moveTo(displayX, displayY)
+                view.context.moveTo(displayX, displayY)
             } else {
-                context.lineTo(displayX, displayY)
+                view.context.lineTo(displayX, displayY)
             }
 
             x += interval;
         }
-        context.strokeStyle = 'orange';
-        context.stroke();
-
-        // console.log(left, top, right, bottom);
-        
-
-        // P.x + alfa * V.x == left
-        // P.y + alfa * V.y
-        //
-
-        /*
-        const px = this.x * zoom.x;
-        const py = this.y * zoom.y;
-        const sx = 4;
-        const sy = 4;
-        console.log(px);
-        console.log(py);
-        context.fillStyle = this.color;
-        context.fillRect(px + 2, py + 2, sx, sy);
-        */
+        view.context.strokeStyle = this.color;
+        const lw = view.context.lineWidth;
+        view.context.lineWidth = this.lineWidth;
+        view.context.stroke();
+        view.context.lineWidth = lw;
     }
 };
 
