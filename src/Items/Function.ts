@@ -99,10 +99,8 @@ export default class Function implements RenderItem {
         view.context.beginPath();
         const stroke = () => {
             view.context.strokeStyle = this.color;
-            const lw = view.context.lineWidth;
             view.context.lineWidth = this.lineWidth;
             view.context.stroke();
-            view.context.lineWidth = lw;
         };
         let x = left;
         let lastX = x;

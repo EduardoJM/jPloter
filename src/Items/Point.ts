@@ -105,10 +105,8 @@ export default class Point implements RenderItem {
         view.context.fill();
         if (this.stroke && this.strokeWidth > 0) {
             view.context.strokeStyle = this.strokeColor;
-            const lw = view.context.lineWidth;
             view.context.lineWidth = this.strokeWidth;
             view.context.stroke();
-            view.context.lineWidth = lw;
         }
     }
 }

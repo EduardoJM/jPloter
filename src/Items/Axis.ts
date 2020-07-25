@@ -214,10 +214,8 @@ export default class Axis implements RenderItem {
             view.context.moveTo(left, 0);
             view.context.lineTo(right, 0);
             view.context.strokeStyle = this.xAxisColor;
-            const lw = view.context.lineWidth;
             view.context.lineWidth = this.xAxisWidth;
             view.context.stroke();
-            view.context.lineWidth = lw;
             
             if (this.arrows) {
                 view.context.beginPath();
@@ -258,10 +256,8 @@ export default class Axis implements RenderItem {
                         view.context.moveTo(pX, sz);
                     }
                     view.context.strokeStyle = this.xAxisThickColor;
-                    const lw = view.context.lineWidth;
                     view.context.lineWidth = this.xAxisThickWidth;
                     view.context.stroke();
-                    view.context.lineWidth = lw;
 
                     if (this.xAxisThickNumbers) {
                         this.renderThickText(view, i.toString(), pX, sz + 10, true);
@@ -284,10 +280,8 @@ export default class Axis implements RenderItem {
             view.context.moveTo(0, top);
             view.context.lineTo(0, bottom);
             view.context.strokeStyle = this.yAxisColor;
-            const lw = view.context.lineWidth;
             view.context.lineWidth = this.yAxisWidth;
             view.context.stroke();
-            view.context.lineWidth = lw;
 
             if (this.arrows) {
                 view.context.beginPath();
@@ -330,10 +324,8 @@ export default class Axis implements RenderItem {
                         view.context.moveTo(sz, pY);
                     }
                     view.context.strokeStyle = this.yAxisThickColor;
-                    const lw = view.context.lineWidth;
                     view.context.lineWidth = this.yAxisThickWidth;
                     view.context.stroke();
-                    view.context.lineWidth = lw;
 
                     if (this.yAxisThickNumbers) {
                         this.renderThickText(view, (-i).toString(), -sz - 10, pYInverted, false);
