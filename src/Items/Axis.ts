@@ -7,18 +7,34 @@ export default class Axis implements RenderItem {
             = view.spacePointToCanvas(view.translation.x, -view.translation.y);
         const right = left + view.canvas.width;
         const bottom = top - view.canvas.height;
-        
+
+        // x axis
         view.context.beginPath();
         view.context.moveTo(left, 0);
         view.context.lineTo(right, 0);
         view.context.strokeStyle = 'black';
         view.context.stroke();
+        
+        const arrowSize = 6;
+        view.context.beginPath();
+        view.context.moveTo(right - arrowSize, -arrowSize / 2);
+        view.context.lineTo(right - arrowSize, arrowSize / 2);
+        view.context.lineTo(right, 0);
+        view.context.fillStyle = 'black';
+        view.context.fill();
 
         view.context.beginPath();
         view.context.moveTo(0, top);
         view.context.lineTo(0, bottom);
         view.context.strokeStyle = 'black';
         view.context.stroke();
+
+        view.context.beginPath();
+        view.context.moveTo(-arrowSize / 2, top - arrowSize);
+        view.context.lineTo(arrowSize / 2, top - arrowSize);
+        view.context.lineTo(0, top);
+        view.context.fillStyle = 'black';
+        view.context.fill();
     }
 };
 

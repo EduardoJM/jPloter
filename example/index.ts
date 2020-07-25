@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('plot') as HTMLCanvasElement;
 
     const view = new jPloter.View(canvas);
-    /*
     view.items.push(new jPloter.Point({
         x: 0,
         y: 0,
@@ -33,8 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         y: 4,
         color: 'red',
     }));
-    */
-    const func = new jPloter.PlotFunction({
+    const func = new jPloter.Function({
         color: 'black',
         lineWidth: 2,
     })
@@ -80,7 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
     input.addEventListener('keyup', () => {
         const functionValue = input.value;
         func.function = functionValue;
-        console.log("set");
         view.render();
     });
     

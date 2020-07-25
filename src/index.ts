@@ -1,13 +1,13 @@
 import View from './View';
 import RenderItem from './Items/RenderItem';
 import Point from './Items/Point';
-import PlotFunction from './Items/PlotFunction';
+import Function from './Items/Function';
 import Axis from './Items/Axis';
 
 const jPloter = {
     View,
     Point,
-    PlotFunction,
+    Function,
     Axis
 };
 

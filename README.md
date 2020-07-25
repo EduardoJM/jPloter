@@ -12,6 +12,6 @@ npm run ex
 
 And, now, open the `demo/index.html` and the demo is here.
 
-## Build the dist version
+## Build the package version
 
 TODO: make this
