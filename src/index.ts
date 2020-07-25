@@ -1,8 +1,8 @@
 import View from './View';
 import RenderItem from './Items/RenderItem';
-import Point from './Items/Point';
-import Function from './Items/Function';
-import Axis from './Items/Axis';
+import Point, { PointCreateOptions } from './Items/Point';
+import Function, { FunctionCreateOptions } from './Items/Function';
+import Axis, { AxisCreateOptions } from './Items/Axis';
 
 const jPloter = {
     View,
@@ -12,6 +12,9 @@ const jPloter = {
 };
 
 export {
-    RenderItem
+    RenderItem,
+    PointCreateOptions,
+    FunctionCreateOptions,
+    AxisCreateOptions
 };
 export default jPloter;
