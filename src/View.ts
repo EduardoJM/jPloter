@@ -19,7 +19,11 @@ export default class View {
 
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
-        this.context = this.canvas.getContext('2d');
+        const context = this.canvas.getContext('2d');
+        if (!context) {
+            throw new Error('Invalid Canvas Element!');
+        }
+        this.context = context;
         this.zoom = {
             x: 1,
             y: 1,

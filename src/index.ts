@@ -4,7 +4,7 @@ import Point, { PointCreateOptions } from './Items/Point';
 import Function, { FunctionCreateOptions } from './Items/Function';
 import Axis, { AxisCreateOptions } from './Items/Axis';
 
-const jPloter = {
+const jPlot = {
     View,
     Point,
     Function,
@@ -17,4 +17,4 @@ export {
     FunctionCreateOptions,
     AxisCreateOptions
 };
-export default jPloter;
+export default jPlot;
