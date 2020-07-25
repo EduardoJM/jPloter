@@ -167,6 +167,38 @@ export default class Axis implements RenderItem {
         }
     }
 
+    getMinMax(initialMin: number, initialMax: number): {
+        min: number;
+        max: number;
+    } {
+        let min = initialMin;
+        let max = initialMax;
+        if (min < 0) {
+            min = Math.ceil(min);
+        } else {
+            min = Math.floor(min);
+        }
+        if (max < 0) {
+            max = Math.ceil(max);
+        } else {
+            max = Math.floor(max);
+        }
+        return {
+            min,
+            max,
+        };
+    }
+
+    renderThickText(view: View, text: string, x: number, y: number, isXaxis: boolean) {
+        const transform = view.context.getTransform();
+        view.context.scale(1, -1);
+        view.context.textAlign = 'center';
+        view.context.fillStyle = isXaxis ? this.xAxisThickColor : this.yAxisThickColor;
+        view.context.font = isXaxis ? this.xAxisThickFont : this.yAxisThickFont;
+        view.context.fillText(text, x, y);
+        view.context.setTransform(transform);
+    }
+
     render(view: View) {
         const { x: left, y: top }
             = view.spacePointToCanvas(view.translation.x, -view.translation.y);
@@ -204,20 +236,10 @@ export default class Axis implements RenderItem {
 
             // thicks
             if (this.xAxisThick) {
-                let xMin = view.translation.x;
-                let xMax = view.translation.x + localWidth;
-                if (xMin < 0) {
-                    xMin = Math.ceil(xMin);
-                }
-                if (xMax < 0) {
-                    xMax = Math.ceil(xMax);
-                }
-                if (xMin > 0) {
-                    xMin = Math.floor(xMin);
-                }
-                if (xMax > 0) {
-                    xMax = Math.floor(xMax);
-                }
+                let { min:xMin, max: xMax} = this.getMinMax(
+                    view.translation.x,
+                    view.translation.x + localWidth
+                );
                 for (let i = xMin; i <= xMax; i += 1) {
                     if (i === 0) {
                         continue;
@@ -242,14 +264,17 @@ export default class Axis implements RenderItem {
                     view.context.lineWidth = lw;
 
                     if (this.xAxisThickNumbers) {
-                        const transform = view.context.getTransform();
-                        view.context.scale(1, -1);
-                        view.context.textAlign = 'center';
-                        view.context.fillStyle = this.xAxisThickColor;
-                        view.context.font = this.xAxisThickFont;
-                        view.context.fillText(i.toString(), pX, sz + 10);
-                        view.context.setTransform(transform);
+                        this.renderThickText(view, i.toString(), pX, sz + 10, true);
                     }
+                }
+                // the 0
+                if (this.xAxisThickNumbers
+                    && view.translation.x < 0
+                    && view.translation.x + localWidth > 0
+                    && view.translation.y < 0
+                    && view.translation.y + localHeight > 0) {
+                    const sz = this.xAxisThickSize + 10;
+                    this.renderThickText(view, '0', -sz, sz, true);
                 }
             }
         }
@@ -282,20 +307,10 @@ export default class Axis implements RenderItem {
 
             // thicks
             if (this.yAxisThick) {
-                let yMin = view.translation.y;
-                let yMax = view.translation.y + localWidth;
-                if (yMin < 0) {
-                    yMin = Math.ceil(yMin);
-                }
-                if (yMax < 0) {
-                    yMax = Math.ceil(yMax);
-                }
-                if (yMin > 0) {
-                    yMin = Math.floor(yMin);
-                }
-                if (yMax > 0) {
-                    yMax = Math.floor(yMax);
-                }
+                let { min:yMin, max: yMax} = this.getMinMax(
+                    view.translation.y,
+                    view.translation.y + localHeight
+                );
                 for (let i = yMin; i <= yMax; i += 1) {
                     if (i === 0) {
                         continue;
@@ -321,17 +336,10 @@ export default class Axis implements RenderItem {
                     view.context.lineWidth = lw;
 
                     if (this.yAxisThickNumbers) {
-                        const transform = view.context.getTransform();
-                        view.context.scale(1, -1);
-                        view.context.textAlign = 'center';
-                        view.context.fillStyle = this.yAxisThickColor;
-                        view.context.font = this.yAxisThickFont;
-                        view.context.fillText((-i).toString(), -sz - 10, pYInverted);
-                        view.context.setTransform(transform);
+                        this.renderThickText(view, (-i).toString(), -sz - 10, pYInverted, false);
                     }
                 }
             }
         }
     }
 };
-
