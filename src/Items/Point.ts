@@ -1,5 +1,5 @@
-import RenderItem from './RenderItem';
-import View from '../View';
+import { RenderItem } from './RenderItem';
+import { View } from '../View';
 
 /**
  * Options for point creation.
@@ -38,7 +38,7 @@ export interface PointCreateOptions {
 /**
  * A class implementating an Point RenderItem.
  */
-export default class Point implements RenderItem {
+export class Point implements RenderItem {
     x: number;
 
     y: number;

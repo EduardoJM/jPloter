@@ -1,5 +1,5 @@
-import View from "../View";
+import { View } from "../View";
 
-export default interface RenderItem {
+export interface RenderItem {
     render: (view: View) => void;
 }

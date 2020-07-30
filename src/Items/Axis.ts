@@ -1,5 +1,5 @@
-import RenderItem from './RenderItem';
-import View from '../View';
+import { RenderItem } from './RenderItem';
+import { View } from '../View';
 
 export interface AxisCreateOptions {
     xAxis?: boolean;
@@ -28,7 +28,7 @@ export interface AxisCreateOptions {
     yAxisThickFont?: string;
 }
 
-export default class Axis implements RenderItem {
+export class Axis implements RenderItem {
     xAxis: boolean;
 
     xAxisWidth: number;
@@ -212,7 +212,10 @@ export default class Axis implements RenderItem {
             // x axis
             view.context.beginPath();
             view.context.moveTo(left, 0);
-            view.context.lineTo(right, 0);
+            view.context.lineTo(
+                this.arrows ? right - this.arrowSize : right,
+                0
+            );
             view.context.strokeStyle = this.xAxisColor;
             view.context.lineWidth = this.xAxisWidth;
             view.context.stroke();
@@ -277,7 +280,10 @@ export default class Axis implements RenderItem {
 
         if (this.yAxis) {
             view.context.beginPath();
-            view.context.moveTo(0, top);
+            view.context.moveTo(
+                0,
+                this.arrows ? top - this.arrowSize : top
+            );
             view.context.lineTo(0, bottom);
             view.context.strokeStyle = this.yAxisColor;
             view.context.lineWidth = this.yAxisWidth;

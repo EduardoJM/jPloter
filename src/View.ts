@@ -1,6 +1,6 @@
-import RenderItem from './Items/RenderItem';
+import { RenderItem } from './Items/RenderItem';
 
-export default class View {
+export class View {
     canvas: HTMLCanvasElement;
     
     context: CanvasRenderingContext2D;

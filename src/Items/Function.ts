@@ -1,5 +1,5 @@
-import RenderItem from './RenderItem';
-import View from '../View';
+import { RenderItem } from './RenderItem';
+import { View } from '../View';
 import { evaluate } from 'mathjs';
 
 export interface FunctionCreateOptions {
@@ -27,7 +27,7 @@ export interface FunctionCreateOptions {
     breakDistance?: number;
 }
 
-export default class Function implements RenderItem {
+export class Function implements RenderItem {
     /**
      * Graph function resolution (number of points to draw).
      */

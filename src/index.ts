@@ -1,20 +1,18 @@
-import View from './View';
-import RenderItem from './Items/RenderItem';
-import Point, { PointCreateOptions } from './Items/Point';
-import Function, { FunctionCreateOptions } from './Items/Function';
-import Axis, { AxisCreateOptions } from './Items/Axis';
+export * from './View';
+export * from './Items/RenderItem';
+export * from './Items/Point';
+export * from './Items/Function';
+export * from './Items/Axis';
 
-const jPlot = {
+import { View } from './View';
+import { Point } from './Items/Point';
+import { Function } from './Items/Function';
+import { Axis } from './Items/Axis';
+
+export default {
     View,
+    // Items
     Point,
-    Function,
-    Axis
+    Axis,
+    Function
 };
-
-export {
-    RenderItem,
-    PointCreateOptions,
-    FunctionCreateOptions,
-    AxisCreateOptions
-};
-export default jPlot;
