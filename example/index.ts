@@ -35,11 +35,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const func = new jPlot.Function({
         color: 'black',
         lineWidth: 2,
+        function: 'x^3'
     })
     view.items.push(func);
     view.items.push(new jPlot.Axis({
         xAxisWidth: 2,
         yAxisWidth: 2,
+        xAxisThickStyle: 'lower',
+        yAxisThickStyle: 'right',
         arrowSize: 15
     }));
     

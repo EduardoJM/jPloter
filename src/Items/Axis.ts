@@ -191,7 +191,6 @@ export class Axis implements RenderItem {
 
     renderThickText(view: View, text: string, x: number, y: number, isXaxis: boolean) {
         const transform = view.context.getTransform();
-        view.context.scale(1, -1);
         view.context.textAlign = 'center';
         view.context.fillStyle = isXaxis ? this.xAxisThickColor : this.yAxisThickColor;
         view.context.font = isXaxis ? this.xAxisThickFont : this.yAxisThickFont;
@@ -199,43 +198,38 @@ export class Axis implements RenderItem {
         view.context.setTransform(transform);
     }
 
-    render(view: View) {
-        const { x: left, y: top }
-            = view.spacePointToCanvas(view.translation.x, -view.translation.y);
+    renderX(view: View, middleX: number, middleY: number) {
+        const left = 0;
         const right = left + view.canvas.width;
-        const bottom = top - view.canvas.height;
-
-        const { x: localWidth, y: localHeight }
-            = view.canvasPointToSpace(view.canvas.width, view.canvas.height);
-
+        const localWidth = view.canvas.width / view.zoom.x;
+        const localHeight = view.canvas.height / view.zoom.y;
         if (this.xAxis) {
             // x axis
             view.context.beginPath();
-            view.context.moveTo(left, 0);
+            view.context.moveTo(left, middleY);
             view.context.lineTo(
                 this.arrows ? right - this.arrowSize : right,
-                0
+                middleY
             );
             view.context.strokeStyle = this.xAxisColor;
             view.context.lineWidth = this.xAxisWidth;
             view.context.stroke();
-            
+            // x arrow
             if (this.arrows) {
                 view.context.beginPath();
                 view.context.moveTo(
                     right - this.arrowSize,
-                    -this.arrowSize / 2
+                    middleY - (this.arrowSize / 2)
                 );
                 view.context.lineTo(
                     right - this.arrowSize,
-                    this.arrowSize / 2
+                    middleY + (this.arrowSize / 2)
                 );
-                view.context.lineTo(right, 0);
+                view.context.lineTo(right, middleY);
                 view.context.fillStyle = this.xAxisColor;
                 view.context.fill();
             }
-
-            // thicks
+            // x thicks
             if (this.xAxisThick) {
                 let { min:xMin, max: xMax} = this.getMinMax(
                     view.translation.x,
@@ -249,21 +243,20 @@ export class Axis implements RenderItem {
                     const { x: pX } = view.spacePointToCanvas(i, 0);
                     const sz = this.xAxisThickSize;
                     if (this.xAxisThickStyle === 'middle') {
-                        view.context.moveTo(pX, -sz / 2);
-                        view.context.lineTo(pX, sz / 2);
+                        view.context.moveTo(pX, middleY - (sz / 2));
+                        view.context.lineTo(pX, middleY + (sz / 2));
                     } else if (this.xAxisThickStyle === 'lower') {
-                        view.context.moveTo(pX, 0);
-                        view.context.moveTo(pX, -sz);
+                        view.context.moveTo(pX, middleY);
+                        view.context.lineTo(pX, middleY + sz);
                     } else {
-                        view.context.moveTo(pX, 0);
-                        view.context.moveTo(pX, sz);
+                        view.context.moveTo(pX, middleY);
+                        view.context.lineTo(pX, middleY - sz);
                     }
                     view.context.strokeStyle = this.xAxisThickColor;
                     view.context.lineWidth = this.xAxisThickWidth;
                     view.context.stroke();
-
                     if (this.xAxisThickNumbers) {
-                        this.renderThickText(view, i.toString(), pX, sz + 10, true);
+                        this.renderThickText(view, i.toString(), pX, middleY + (sz + 10), true);
                     }
                 }
                 // the 0
@@ -273,39 +266,43 @@ export class Axis implements RenderItem {
                     && view.translation.y < 0
                     && view.translation.y + localHeight > 0) {
                     const sz = this.xAxisThickSize + 10;
-                    this.renderThickText(view, '0', -sz, sz, true);
+                    this.renderThickText(view, '0', middleX - sz, middleY + sz, true);
                 }
             }
         }
+    }
 
+    renderY(view: View, middleX: number, middleY: number) {
+        const top = 0;
+        const bottom = top + view.canvas.height;
+        const localHeight = view.canvas.height / view.zoom.y;
         if (this.yAxis) {
+            // y axis
             view.context.beginPath();
             view.context.moveTo(
-                0,
-                this.arrows ? top - this.arrowSize : top
+                middleX,
+                this.arrows ? top + this.arrowSize : top
             );
-            view.context.lineTo(0, bottom);
+            view.context.lineTo(middleX, bottom);
             view.context.strokeStyle = this.yAxisColor;
             view.context.lineWidth = this.yAxisWidth;
             view.context.stroke();
-
+            // y arrow
             if (this.arrows) {
                 view.context.beginPath();
                 view.context.moveTo(
-                    -this.arrowSize / 2,
-                    top - this.arrowSize
+                    middleX - (this.arrowSize / 2),
+                    top + this.arrowSize
                 );
                 view.context.lineTo(
-                    this.arrowSize / 2,
-                    top - this.arrowSize
+                    middleX + (this.arrowSize / 2),
+                    top + this.arrowSize
                 );
-                view.context.lineTo(0, top);
+                view.context.lineTo(middleX, top);
                 view.context.fillStyle = this.yAxisColor;
                 view.context.fill();
             }
-
-
-            // thicks
+            // y thicks
             if (this.yAxisThick) {
                 let { min:yMin, max: yMax} = this.getMinMax(
                     view.translation.y,
@@ -317,27 +314,32 @@ export class Axis implements RenderItem {
                     }
                     view.context.beginPath();
                     const { y: pY } = view.spacePointToCanvas(0, -i);
-                    const { y: pYInverted } = view.spacePointToCanvas(0, i);
                     const sz = this.yAxisThickSize;
                     if (this.yAxisThickStyle === 'middle') {
-                        view.context.moveTo(-sz / 2, pY);
-                        view.context.lineTo(sz / 2, pY);
+                        view.context.moveTo(middleX - sz / 2, pY);
+                        view.context.lineTo(middleX + sz / 2, pY);
                     } else if (this.yAxisThickStyle === 'left') {
-                        view.context.moveTo(-sz, pY);
-                        view.context.moveTo(0, pY);
+                        view.context.moveTo(middleX - sz, pY);
+                        view.context.lineTo(middleX, pY);
                     } else {
-                        view.context.moveTo(0, pY);
-                        view.context.moveTo(sz, pY);
+                        view.context.moveTo(middleX, pY);
+                        view.context.lineTo(middleX + sz, pY);
                     }
                     view.context.strokeStyle = this.yAxisThickColor;
                     view.context.lineWidth = this.yAxisThickWidth;
                     view.context.stroke();
 
                     if (this.yAxisThickNumbers) {
-                        this.renderThickText(view, (-i).toString(), -sz - 10, pYInverted, false);
+                        this.renderThickText(view, (-i).toString(), middleX - (sz + 10), pY, false);
                     }
                 }
             }
         }
+    }
+
+    render(view: View) {
+        const { x: middleX, y: middleY } = view.spacePointToCanvas(0, 0);
+        this.renderX(view, middleX, middleY);
+        this.renderY(view, middleX, middleY);
     }
 };
