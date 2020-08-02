@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         color: 'black',
         lineWidth: 2,
         function: 'x^3'
-    })
+    });
     view.items.push(func);
     view.items.push(new jPlot.Axis({
         xAxisWidth: 2,
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     view.zoom = { x: 100, y: 100 };
     view.translation = { x: -2.5, y: -2.5 };
-
+    
     const mouse = new jPlot.Mouse(view);
     mouse.enable();
     mouse.enableZoom();

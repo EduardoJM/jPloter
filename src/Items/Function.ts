@@ -1,4 +1,4 @@
-import { RenderItem } from './RenderItem';
+import { RenderItem, RenderItemBounds } from './RenderItem';
 import { View } from '../View';
 import { evaluate } from 'mathjs';
 
@@ -55,12 +55,15 @@ export class Function implements RenderItem {
      */
     breakDistance: number;
 
+    lastPoints: ({ x: number, y: number }[])[];
+
     constructor(opts?: FunctionCreateOptions) {
         this.resolution = 200;
         this.color = 'black';
         this.lineWidth = 1;
         this.function = '';
         this.breakDistance = 100;
+        this.lastPoints = [];
 
         if (opts) {
             if (opts.resolution !== null && opts.resolution !== undefined) {
@@ -87,12 +90,14 @@ export class Function implements RenderItem {
         }
         // get the space left position
         const left = view.translation.x;
+        /*
         // get the space right position
         const { x: width } = view.canvasPointToSpace(
             view.canvas.width,
             view.canvas.height
         );
-        const right = left + width;
+        */
+        const right = left + view.canvas.width / view.zoom.x;
         // get the interval size
         const interval = (right - left) / this.resolution;
         // begin the path
@@ -137,6 +142,68 @@ export class Function implements RenderItem {
             x += interval;
         }
         stroke();
+    }
+
+    getBounding(view: View): RenderItemBounds {
+        const empty = { left: 0, top: 0, right: 0, bottom: 0 };
+        if (this.lineWidth <= 0 || this.function === '') {
+            return empty;
+        }
+        const left = view.translation.x;
+        const right = left + view.canvas.width / view.zoom.x;
+        // get the interval size
+        const interval = (right - left) / this.resolution;
+        let x = left;
+        // for the breakpoint
+        let lastX = x;
+        let lastY = 0;
+        let points: { x: number, y: number }[] = [];
+        this.lastPoints = [];
+        for (let i = 0; i <= this.resolution; i += 1) {
+            let y = 0;
+            try {
+                y = evaluate(this.function, { x });
+            } catch (e) {
+                continue;
+            }
+            // break point check
+            if (i !== 0) {
+                // euclidian distance between two points
+                const dist = Math.pow(x - lastX, 2) + Math.pow(y - lastY, 2);
+                const epsilon = Math.pow(this.breakDistance, 2);
+                if (dist >= epsilon) {
+                    this.lastPoints.push(points);
+                    points = [];
+                }
+            }
+
+            const { x: displayX, y: displayY } = view.spacePointToCanvas(x, y);
+            points.push({ x: displayX, y: displayY });
+            lastX = x;
+            lastY = y;
+            x += interval;
+        }
+        if (points.length > 0) {
+            this.lastPoints.push(points);
+        }
+        let boundingLeft = 0;
+        let boundingTop = 0;
+        let boundingRight = 0;
+        let boundingBottom = 0;
+        this.lastPoints.forEach((pointArray) => {
+            pointArray.forEach((point) => {
+                boundingLeft = Math.min(boundingLeft, point.x);
+                boundingRight = Math.max(boundingRight, point.x);
+                boundingTop = Math.min(boundingTop, point.y);
+                boundingBottom = Math.max(boundingBottom, point.y);
+            });
+        });
+        return {
+            left: boundingLeft,
+            top: boundingTop,
+            right: boundingRight,
+            bottom: boundingBottom
+        };
     }
 };
 

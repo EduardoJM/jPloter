@@ -1,4 +1,4 @@
-import { RenderItem } from './RenderItem';
+import { RenderItem, RenderItemBounds } from './RenderItem';
 import { View } from '../View';
 
 /**
@@ -108,5 +108,19 @@ export class Point implements RenderItem {
             view.context.lineWidth = this.strokeWidth;
             view.context.stroke();
         }
+    }
+
+    getBounding(view: View): RenderItemBounds {
+        const empty = { left: 0, top: 0, right: 0, bottom: 0 };
+        if (this.pointSize <= 0) {
+            return empty;
+        }
+        const { x : px, y: py } = view.spacePointToCanvas(this.x, this.y);
+        return {
+            left: px - this.pointSize,
+            top: py - this.pointSize,
+            right: px + this.pointSize,
+            bottom: py + this.pointSize
+        };
     }
 }

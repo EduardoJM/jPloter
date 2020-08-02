@@ -17,6 +17,8 @@ export class View {
 
     items: RenderItem[];
 
+    renderList: RenderItem[];
+
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
         const context = this.canvas.getContext('2d');
@@ -33,13 +35,26 @@ export class View {
             y: 0,
         };
         this.items = [];
+        this.renderList = [];
     }
 
     render() {
         this.context.resetTransform();
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.items.forEach((item) => {
+        const screenBounds = { left: 0, top: 0, right: this.canvas.width, bottom: this.canvas.height };
+        this.renderList = this.items.filter((item) => {
+            const rc = item.getBounding(this);
+            if (screenBounds.left >= rc.right || rc.left >= screenBounds.right) {
+                return false;
+            }
+            if (screenBounds.top >= rc.bottom || rc.top >= screenBounds.bottom) {
+                return false;
+            }
+            return true;
+        });
+        console.log('rendering ', this.renderList.length, ' items');
+        this.renderList.forEach((item) => {
             item.render(this);
         });
     }

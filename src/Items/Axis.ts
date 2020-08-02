@@ -1,4 +1,4 @@
-import { RenderItem } from './RenderItem';
+import { RenderItem, RenderItemBounds } from './RenderItem';
 import { View } from '../View';
 
 export interface AxisCreateOptions {
@@ -341,5 +341,76 @@ export class Axis implements RenderItem {
         const { x: middleX, y: middleY } = view.spacePointToCanvas(0, 0);
         this.renderX(view, middleX, middleY);
         this.renderY(view, middleX, middleY);
+    }
+
+    getBounding(view: View): RenderItemBounds {
+        let boundingLeft = 0;
+        let boundingTop = 0;
+        let boundingRight = 0;
+        let boundingBottom = 0;
+
+        const { x: middleX, y: middleY } = view.spacePointToCanvas(0, 0);
+        const left = 0;
+        const right = left + view.canvas.width;
+        const top = 0;
+        const bottom = top + view.canvas.height;
+        if (this.xAxis) {
+            boundingLeft = left;
+            boundingRight = right;
+            boundingTop = middleY - (this.xAxisWidth / 2);
+            boundingBottom = middleY + (this.xAxisWidth / 2);
+            if (this.arrows) {
+                boundingTop = middleY - (this.arrowSize / 2);
+                boundingBottom = middleY + (this.arrowSize / 2);
+            }
+            if (this.xAxisThick) {
+                const sz = this.xAxisThickSize;
+                if (this.xAxisThickStyle === 'middle') {
+                    boundingTop = Math.min(boundingTop, middleY - (sz / 2));
+                    boundingBottom = Math.max(boundingBottom, middleY + (sz / 2));
+                } else if (this.xAxisThickStyle === 'lower') {
+                    boundingTop = Math.min(boundingTop, middleY);
+                    boundingBottom = Math.max(boundingBottom, middleY + sz);
+                } else {
+                    boundingTop = Math.min(boundingTop, middleY - sz);
+                    boundingBottom = Math.max(boundingBottom, middleY);
+                }
+                if (this.xAxisThickNumbers) {
+                    boundingBottom = Math.max(boundingBottom, middleY + (sz + 40));
+                }
+            }
+        }
+        if (this.yAxis) {
+            boundingLeft = Math.min(boundingLeft, middleX - (this.yAxisWidth / 2));
+            boundingRight = Math.max(boundingRight, middleX + (this.yAxisWidth / 2));
+            boundingTop = Math.min(boundingTop, top);
+            boundingBottom = Math.max(boundingBottom, bottom);
+            if (this.arrows) {
+                boundingLeft = Math.min(boundingLeft, middleX - (this.arrowSize / 2));
+                boundingRight = Math.max(boundingRight, middleX + (this.arrowSize / 2));
+            }
+            if (this.yAxisThick) {
+                const sz = this.yAxisThickSize;
+                if (this.yAxisThickStyle === 'middle') {
+                    boundingLeft = Math.min(boundingLeft, middleX - (sz / 2));
+                    boundingRight = Math.max(boundingRight, middleX + (sz / 2));
+                } else if (this.yAxisThickStyle === 'left') {
+                    boundingLeft = Math.min(boundingLeft, middleX - sz);
+                    boundingRight = Math.max(boundingRight, middleX);
+                } else {
+                    boundingLeft = Math.min(boundingLeft, middleX);
+                    boundingRight = Math.max(boundingRight, middleX + sz);
+                }
+                if (this.yAxisThickNumbers) {
+                    boundingLeft = Math.min(boundingLeft, middleX - (sz + 30));
+                }
+            }
+        }
+        return {
+            left: boundingLeft,
+            right: boundingRight,
+            top: boundingTop,
+            bottom: boundingBottom
+        };
     }
 };
