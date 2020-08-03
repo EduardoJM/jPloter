@@ -88,60 +88,19 @@ export class Function implements RenderItem {
         if (this.lineWidth <= 0 || this.function === '') {
             return;
         }
-        // get the space left position
-        const left = view.translation.x;
-        /*
-        // get the space right position
-        const { x: width } = view.canvasPointToSpace(
-            view.canvas.width,
-            view.canvas.height
-        );
-        */
-        const right = left + view.canvas.width / view.zoom.x;
-        // get the interval size
-        const interval = (right - left) / this.resolution;
-        // begin the path
-        view.context.beginPath();
-        const stroke = () => {
+        this.lastPoints.forEach((points) => {
+            view.context.beginPath();
+            for (let i = 0; i < points.length; i += 1) {
+                if (i === 0) {
+                    view.context.moveTo(points[i].x, points[i].y);
+                } else {
+                    view.context.lineTo(points[i].x, points[i].y);
+                }
+            }
             view.context.strokeStyle = this.color;
             view.context.lineWidth = this.lineWidth;
             view.context.stroke();
-        };
-        let x = left;
-        let lastX = x;
-        let lastY = 0;
-        let move = true;
-        for (let i = 0; i < this.resolution; i += 1) {
-            let y = 0;
-            try {
-                y = evaluate(this.function, { x });
-            } catch (e) {
-                continue;
-            }
-            // break point check
-            if (i !== 0) {
-                // euclidian distance between two points
-                const dist = Math.pow(x - lastX, 2) + Math.pow(y - lastY, 2);
-                const epsilon = Math.pow(this.breakDistance, 2);
-                if (dist >= epsilon) {
-                    stroke();
-                    view.context.beginPath();
-                    move = true;
-                }
-            }
-
-            const { x: displayX, y: displayY } = view.spacePointToCanvas(x, y);
-            if (move) {
-                view.context.moveTo(displayX, displayY)
-                move = false;
-            } else {
-                view.context.lineTo(displayX, displayY)
-            }
-            lastX = x;
-            lastY = y;
-            x += interval;
-        }
-        stroke();
+        });
     }
 
     getBounding(view: View): RenderItemBounds {
