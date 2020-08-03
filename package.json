@@ -10,10 +10,15 @@
   "author": "Eduardo Oliveira <eduardo_y05@outlook.com> (https://eduardojm.github.io/en/)",
   "license": "MIT",
   "devDependencies": {
+    "@commitlint/cli": "^9.1.2",
+    "@commitlint/config-conventional": "^9.1.1",
     "@types/mathjs": "^6.0.5",
     "browserify": "^16.5.1",
+    "commitizen": "^4.1.2",
+    "cz-conventional-changelog": "^3.2.0",
     "gulp": "^4.0.2",
     "gulp-uglify": "^3.0.2",
+    "husky": "^4.2.5",
     "tsify": "^4.0.2",
     "typescript": "^3.9.7",
     "uglify": "^0.1.5",
@@ -30,5 +35,16 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/EduardoJM/jplot"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
