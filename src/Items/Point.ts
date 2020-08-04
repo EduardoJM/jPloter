@@ -39,21 +39,48 @@ export interface PointCreateOptions {
  * A class implementating an Point RenderItem.
  */
 export class Point implements RenderItem {
+    /**
+     * name of the item.
+     */
+    name: string;
+
+    /**
+     * x position of the point.
+     */
     x: number;
 
+    /**
+     * y position of the point.
+     */
     y: number;
 
+    /**
+     * a boolean value indicating if the point is stroked.
+     */
     color: string;
 
+    /**
+     * a boolean value indicating if the point is stroked.
+     */
     stroke: boolean;
 
+    /**
+     * the stroke color of the point.
+     */
     strokeColor: string;
 
+    /**
+     * the stroke width of the point.
+     */
     strokeWidth: number;
 
+    /**
+     * the size of the point.
+     */
     pointSize: number;
 
     constructor(opts?: PointCreateOptions) {
+        this.name = '';
         this.x = 0;
         this.y = 0;
         this.color = 'black';

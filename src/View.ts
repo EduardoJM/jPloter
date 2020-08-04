@@ -43,6 +43,13 @@ export class View {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         const screenBounds = { left: 0, top: 0, right: this.canvas.width, bottom: this.canvas.height };
+        // indicate to items if bounding calculation is needed
+        this.items.forEach((item) => {
+            if (item.preBoundingCalculate) {
+                item.preBoundingCalculate(this);
+            }
+        });
+        // calculate bounding and check if overlap to screen
         this.renderList = this.items.filter((item) => {
             const rc = item.getBounding(this);
             if (screenBounds.left >= rc.right || rc.left >= screenBounds.right) {
@@ -53,7 +60,7 @@ export class View {
             }
             return true;
         });
-        console.log('rendering ', this.renderList.length, ' items');
+        // console.log('rendering ', this.renderList.length, ' items');
         this.renderList.forEach((item) => {
             item.render(this);
         });
@@ -71,5 +78,15 @@ export class View {
             x: x / this.zoom.x - this.translation.x,
             y: y / this.zoom.y,
         };
+    }
+
+    getItemByName(name: string): RenderItem | null {
+        const filtered = this.items.filter((item) => {
+            return (item.name === name)
+        });
+        if (filtered.length <= 0) {
+            return null;
+        }
+        return filtered[0];
     }
 }

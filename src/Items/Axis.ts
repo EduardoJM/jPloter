@@ -29,6 +29,8 @@ export interface AxisCreateOptions {
 }
 
 export class Axis implements RenderItem {
+    name: string;
+
     xAxis: boolean;
 
     xAxisWidth: number;
@@ -74,6 +76,7 @@ export class Axis implements RenderItem {
     yAxisThickFont: string;
 
     constructor(opts?: AxisCreateOptions) {
+        this.name = '';
         this.xAxis = true;
         this.xAxisWidth = 2;
         this.xAxisColor = 'black';

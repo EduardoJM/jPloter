@@ -17,5 +17,6 @@ export default {
     // Items
     Point,
     Axis,
-    Function
+    Function,
+    // Complementary Items
 };

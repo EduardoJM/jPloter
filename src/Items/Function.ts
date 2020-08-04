@@ -29,6 +29,11 @@ export interface FunctionCreateOptions {
 
 export class Function implements RenderItem {
     /**
+     * name of the item.
+     */
+    name: string;
+    
+    /**
      * Graph function resolution (number of points to draw).
      */
     resolution: number;
@@ -55,15 +60,25 @@ export class Function implements RenderItem {
      */
     breakDistance: number;
 
+    /**
+     * Last computed points.
+     */
     lastPoints: ({ x: number, y: number }[])[];
 
+    lastPointsNeedRecalc: boolean;
+    lastPointsBounding: RenderItemBounds;
+
     constructor(opts?: FunctionCreateOptions) {
+        this.name = '';
         this.resolution = 200;
         this.color = 'black';
         this.lineWidth = 1;
         this.function = '';
         this.breakDistance = 100;
+        // utils
         this.lastPoints = [];
+        this.lastPointsNeedRecalc = false;
+        this.lastPointsBounding = { left: 0, right: 0, top: 0, bottom: 0};
 
         if (opts) {
             if (opts.resolution !== null && opts.resolution !== undefined) {
@@ -103,10 +118,17 @@ export class Function implements RenderItem {
         });
     }
 
+    preBoundingCalculate(view: View): void {
+        this.lastPointsNeedRecalc = true;
+    }
+
     getBounding(view: View): RenderItemBounds {
-        const empty = { left: 0, top: 0, right: 0, bottom: 0 };
+        if (!this.lastPointsNeedRecalc) {
+            return this.lastPointsBounding;
+        }
+        this.lastPointsBounding = { left: 0, top: 0, right: 0, bottom: 0 };
         if (this.lineWidth <= 0 || this.function === '') {
-            return empty;
+            return this.lastPointsBounding;
         }
         const left = view.translation.x;
         const right = left + view.canvas.width / view.zoom.x;
@@ -157,12 +179,14 @@ export class Function implements RenderItem {
                 boundingBottom = Math.max(boundingBottom, point.y);
             });
         });
-        return {
+        this.lastPointsBounding = {
             left: boundingLeft,
             top: boundingTop,
             right: boundingRight,
             bottom: boundingBottom
         };
+        this.lastPointsNeedRecalc = false;
+        return this.lastPointsBounding;
     }
 };
 
