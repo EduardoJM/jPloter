@@ -1,6 +1,6 @@
 import { RenderItem, RenderItemBounds } from './RenderItem';
 import { View } from '../View';
-import { evaluate } from 'mathjs';
+import { evaluate, number } from 'mathjs';
 
 export interface FunctionCreateOptions {
     /**
@@ -65,8 +65,10 @@ export class Function implements RenderItem {
      */
     lastPoints: ({ x: number, y: number }[])[];
 
-    lastPointsNeedRecalc: boolean;
-    lastPointsBounding: RenderItemBounds;
+    private lastPointsNeedRecalc: boolean;
+    private lastPointsBounding: RenderItemBounds;
+    private lastViewTranslation: { x: number; y: number; };
+    private lastViewZoom: { x: number; y: number; };
 
     constructor(opts?: FunctionCreateOptions) {
         this.name = '';
@@ -77,8 +79,11 @@ export class Function implements RenderItem {
         this.breakDistance = 100;
         // utils
         this.lastPoints = [];
+        // private
         this.lastPointsNeedRecalc = false;
         this.lastPointsBounding = { left: 0, right: 0, top: 0, bottom: 0};
+        this.lastViewTranslation = { x: Number.NaN, y: Number.NaN };
+        this.lastViewZoom = { x: Number.NaN, y: Number.NaN };
 
         if (opts) {
             if (opts.resolution !== null && opts.resolution !== undefined) {
@@ -119,7 +124,17 @@ export class Function implements RenderItem {
     }
 
     preBoundingCalculate(view: View): void {
-        this.lastPointsNeedRecalc = true;
+        this.lastPointsNeedRecalc = false;
+        if (isNaN(this.lastViewTranslation.x) || isNaN(this.lastViewTranslation.y)
+            || isNaN(this.lastViewZoom.x) || isNaN(this.lastViewZoom.y)) {
+            this.lastPointsNeedRecalc = true;
+        }
+        if (this.lastViewTranslation.x !== view.translation.x 
+            || this.lastViewTranslation.y !== view.translation.y
+            || this.lastViewZoom.x !== view.zoom.x
+            || this.lastViewZoom.y !== view.zoom.y) {
+            this.lastPointsNeedRecalc = true;
+        }
     }
 
     getBounding(view: View): RenderItemBounds {
@@ -185,8 +200,18 @@ export class Function implements RenderItem {
             right: boundingRight,
             bottom: boundingBottom
         };
+        this.lastViewTranslation = view.translation;
+        this.lastViewZoom = view.zoom;
         this.lastPointsNeedRecalc = false;
         return this.lastPointsBounding;
     }
-};
+
+    updateFunction(func?: string) {
+        if (func !== undefined) {
+            this.function = func
+        }
+        this.lastViewTranslation = { x: Number.NaN, y: Number.NaN };
+        this.lastViewZoom = { x: Number.NaN, y: Number.NaN };
+    }
+}
 

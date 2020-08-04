@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById('func') as HTMLInputElement;
     input.addEventListener('keyup', () => {
         const functionValue = input.value;
-        func.function = functionValue;
+        func.updateFunction(functionValue);
         view.render();
     });
     
