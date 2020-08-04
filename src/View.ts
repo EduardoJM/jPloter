@@ -60,7 +60,7 @@ export class View {
             }
             return true;
         });
-        // console.log('rendering ', this.renderList.length, ' items');
+        console.log('rendering ', this.renderList.length, ' items');
         this.renderList.forEach((item) => {
             item.render(this);
         });
