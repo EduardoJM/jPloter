@@ -1,8 +1,13 @@
+import { evaluate } from 'mathjs';
 import { RenderItem, RenderItemBounds } from './RenderItem';
 import { View } from '../View';
-import { evaluate, number } from 'mathjs';
+import { applyProps } from '../Utils/props';
 
 export interface FunctionCreateOptions {
+    /**
+     * The RenderItem name.
+     */
+    name?: string;
     /**
      * Graph function resolution (number of points to draw).
      */
@@ -84,24 +89,7 @@ export class Function implements RenderItem {
         this.lastPointsBounding = { left: 0, right: 0, top: 0, bottom: 0};
         this.lastViewTranslation = { x: Number.NaN, y: Number.NaN };
         this.lastViewZoom = { x: Number.NaN, y: Number.NaN };
-
-        if (opts) {
-            if (opts.resolution !== null && opts.resolution !== undefined) {
-                this.resolution = opts.resolution;
-            }
-            if (opts.color !== null && opts.color !== undefined) {
-                this.color = opts.color;
-            }
-            if (opts.lineWidth !== null && opts.lineWidth !== undefined) {
-                this.lineWidth = opts.lineWidth;
-            }
-            if (opts.function !== null && opts.function !== undefined) {
-                this.function = opts.function;
-            }
-            if (opts.breakDistance !== null && opts.breakDistance !== undefined) {
-                this.breakDistance = opts.breakDistance;
-            }
-        }
+        applyProps(opts, this);
     }
 
     render(view: View) {

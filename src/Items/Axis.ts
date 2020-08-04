@@ -1,7 +1,12 @@
 import { RenderItem, RenderItemBounds } from './RenderItem';
 import { View } from '../View';
+import { applyProps } from '../Utils/props';
 
 export interface AxisCreateOptions {
+    /**
+     * The RenderItem name.
+     */
+    name?: string;
     xAxis?: boolean;
     xAxisWidth?: number;
     xAxisColor?: string;
@@ -99,75 +104,8 @@ export class Axis implements RenderItem {
         this.yAxisThickColor = 'black';
         this.yAxisThickNumbers = true;
         this.yAxisThickFont = 'Arial 16px';
-
-        if (opts) {
-            if (opts.xAxis !== null && opts.xAxis !== undefined) {
-                this.xAxis = opts.xAxis;
-            }
-            if (opts.xAxisWidth !== null && opts.xAxisWidth !== undefined) {
-                this.xAxisWidth = opts.xAxisWidth;
-            }
-            if (opts.xAxisColor !== null && opts.xAxisColor !== undefined) {
-                this.xAxisColor = opts.xAxisColor;
-            }
-            if (opts.yAxis !== null && opts.yAxis !== undefined) {
-                this.yAxis = opts.yAxis;
-            }
-            if (opts.yAxisWidth !== null && opts.yAxisWidth !== undefined) {
-                this.yAxisWidth = opts.yAxisWidth;
-            }
-            if (opts.yAxisColor !== null && opts.yAxisColor !== undefined) {
-                this.yAxisColor = opts.yAxisColor;
-            }
-            if (opts.arrows !== null && opts.arrows !== undefined) {
-                this.arrows = opts.arrows;
-            }
-            if (opts.arrowSize !== null && opts.arrowSize !== undefined) {
-                this.arrowSize = opts.arrowSize;
-            }
-            if (opts.xAxisThick !== null && opts.xAxisThick !== undefined) {
-                this.xAxisThick = opts.xAxisThick;
-            }
-            if (opts.xAxisThickSize !== null && opts.xAxisThickSize !== undefined) {
-                this.xAxisThickSize = opts.xAxisThickSize;
-            }
-            if (opts.xAxisThickWidth !== null && opts.xAxisThickWidth !== undefined) {
-                this.xAxisThickWidth = opts.xAxisThickWidth;
-            }
-            if (opts.xAxisThickStyle !== null && opts.xAxisThickStyle !== undefined) {
-                this.xAxisThickStyle = opts.xAxisThickStyle;
-            }
-            if (opts.xAxisThickColor !== null && opts.xAxisThickColor !== undefined) {
-                this.xAxisThickColor = opts.xAxisThickColor;
-            }
-            if (opts.xAxisThickNumbers !== null && opts.xAxisThickNumbers !== undefined) {
-                this.xAxisThickNumbers = opts.xAxisThickNumbers;
-            }
-            if (opts.xAxisThickFont !== null && opts.xAxisThickFont !== undefined) {
-                this.xAxisThickFont = opts.xAxisThickFont;
-            }
-            if (opts.yAxisThick !== null && opts.yAxisThick !== undefined) {
-                this.yAxisThick = opts.yAxisThick;
-            }
-            if (opts.yAxisThickSize !== null && opts.yAxisThickSize !== undefined) {
-                this.yAxisThickSize = opts.yAxisThickSize;
-            }
-            if (opts.yAxisThickWidth !== null && opts.yAxisThickWidth !== undefined) {
-                this.yAxisThickWidth = opts.yAxisThickWidth;
-            }
-            if (opts.yAxisThickStyle !== null && opts.yAxisThickStyle !== undefined) {
-                this.yAxisThickStyle = opts.yAxisThickStyle;
-            }
-            if (opts.yAxisThickColor !== null && opts.yAxisThickColor !== undefined) {
-                this.yAxisThickColor = opts.yAxisThickColor;
-            }
-            if (opts.yAxisThickNumbers !== null && opts.yAxisThickNumbers !== undefined) {
-                this.yAxisThickNumbers = opts.yAxisThickNumbers;
-            }
-            if (opts.yAxisThickFont !== null && opts.yAxisThickFont !== undefined) {
-                this.yAxisThickFont = opts.yAxisThickFont;
-            }
-        }
+        
+        applyProps(opts, this);
     }
 
     getMinMax(initialMin: number, initialMax: number): {

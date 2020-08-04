@@ -1,10 +1,15 @@
 import { RenderItem, RenderItemBounds } from './RenderItem';
 import { View } from '../View';
+import { applyProps } from '../Utils/props';
 
 /**
  * Options for point creation.
  */
 export interface PointCreateOptions {
+    /**
+     * The RenderItem name.
+     */
+    name?: string;
     /**
      * x position of the point.
      */
@@ -89,29 +94,7 @@ export class Point implements RenderItem {
         this.strokeWidth = 1;
         this.pointSize = 5;
 
-        if (opts) {
-            if (opts.x !== null && opts.x !== undefined) {
-                this.x = opts.x;
-            }
-            if (opts.y !== null && opts.y !== undefined) {
-                this.y = opts.y;
-            }
-            if (opts.color !== null && opts.color !== undefined) {
-                this.color = opts.color;
-            }
-            if (opts.stroke !== null && opts.stroke !== undefined) {
-                this.stroke = opts.stroke;
-            }
-            if (opts.strokeColor !== null && opts.strokeColor !== undefined) {
-                this.strokeColor = opts.strokeColor;
-            }
-            if (opts.strokeWidth !== null && opts.strokeWidth !== undefined) {
-                this.strokeWidth = opts.strokeWidth;
-            }
-            if (opts.pointSize !== null && opts.pointSize !== undefined) {
-                this.pointSize = opts.pointSize;
-            }
-        }
+        applyProps(opts, this);
     }
     
     render(view: View) {

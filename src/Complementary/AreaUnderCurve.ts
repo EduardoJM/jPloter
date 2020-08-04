@@ -3,6 +3,7 @@ import { View } from '../View';
 import { RenderItem, RenderItemBounds } from '../Items/RenderItem';
 import { Function } from '../Items/Function';
 import { overlapBoundings } from '../Utils/bounding';
+import { applyProps } from '../Utils/props';
 
 export interface AreaUnderCurveCreateOptions {
     /**
@@ -95,35 +96,7 @@ export class AreaUnderCurve implements RenderItem {
         this.strokeWidth = 1;
         this.polygon = [];
 
-        if (opts) {
-            if (opts.name !== null && opts.name !== undefined) {
-                this.name = opts.name;
-            }
-            if (opts.curveName !== null && opts.curveName !== undefined) {
-                this.curveName = opts.curveName;
-            }
-            if (opts.left !== null && opts.left !== undefined) {
-                this.left = opts.left;
-            }
-            if (opts.right !== null && opts.right !== undefined) {
-                this.right = opts.right;
-            }
-            if (opts.fill !== null && opts.fill !== undefined) {
-                this.fill = opts.fill;
-            }
-            if (opts.fillStyle !== null && opts.fillStyle !== undefined) {
-                this.fillStyle = opts.fillStyle;
-            }
-            if (opts.stroke !== null && opts.stroke !== undefined) {
-                this.stroke = opts.stroke;
-            }
-            if (opts.strokeStyle !== null && opts.strokeStyle !== undefined) {
-                this.strokeStyle = opts.strokeStyle;
-            }
-            if (opts.strokeWidth !== null && opts.strokeWidth !== undefined) {
-                this.strokeWidth = opts.strokeWidth;
-            }
-        }
+        applyProps(opts, this);
     }
 
     getRelativeResolution(view: View, width: number, func: Function): number {
