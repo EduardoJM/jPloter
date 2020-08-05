@@ -1,4 +1,4 @@
-import { evaluate } from 'mathjs';
+// import { evaluate } from 'mathjs';
 import { View } from '../View';
 import { RenderItem, RenderItemCreateOptions, RenderItemBounds } from '../Items/RenderItem';
 import { Function } from '../Items/Function';
@@ -124,6 +124,9 @@ export class AreaUnderCurve implements RenderItem {
 
     getBounding(view: View): RenderItemBounds {
         const empty = { left: 0, right: 0, top: 0, bottom: 0 };
+        if (!view.evaluate) {
+            return empty;
+        }
         if (this.curveName === '') {
             return empty;
         }
@@ -138,6 +141,9 @@ export class AreaUnderCurve implements RenderItem {
         const pointB = view.spacePointToCanvas(Math.max(this.right, this.left), 0);
         if (curve instanceof Function) {
             const bb1 = curve.getBounding(view);
+            if (bb1.left === bb1.right || bb1.top === bb1.bottom) {
+                return empty;
+            }
             const bb2 = { left: pointA.x, right: pointB.x, top: bb1.top, bottom: bb1.bottom };
             if (!overlapBoundings(bb1, bb2)) {
                 return empty;
@@ -154,7 +160,7 @@ export class AreaUnderCurve implements RenderItem {
             let minY = 0;
             let maxY = 0;
             for (let i = 0; i <= resolution; i += 1) {
-                const pt = view.spacePointToCanvas(x, evaluate(curve.function, { x }));
+                const pt = view.spacePointToCanvas(x, view.evaluate(curve.function, x));
                 minY = Math.min(pt.y, minY);
                 maxY = Math.max(pt.y, maxY);
                 this.polygon.push(pt);

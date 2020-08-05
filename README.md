@@ -2,7 +2,7 @@
 
 ![jPlot Example](demo/images/demo.jpg)
 
-This is a (in development) small math graph plot library that i'm, Eduardo Oliveira, developing for i use in my other personal projects. This project, and package, contains, for now, some Rendering Items, like the **Axis**, the **Function** and the **Point**. The **render** method of all of this items is created using some math translation and scale operations and, the most important (maybe?) is the **Function**. The **Function** item run, in the *"background"* the [mathjs](https://mathjs.org/) `math.evaluate` for the calculations and plot the function.
+This is a (in development) small math graph plot library that i'm, Eduardo Oliveira, developing for i use in my other personal projects. This project, and package, contains, for now, some Rendering Items, like the **Axis**, the **Function** and the **Point**.
 
 ## Install
 

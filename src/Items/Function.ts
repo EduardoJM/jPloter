@@ -1,4 +1,4 @@
-import { evaluate } from 'mathjs';
+// import { evaluate } from 'mathjs';
 import { RenderItem, RenderItemCreateOptions, RenderItemBounds } from './RenderItem';
 import { View } from '../View';
 import { applyProps } from '../Utils/props';
@@ -122,6 +122,9 @@ export class Function implements RenderItem {
     }
 
     getBounding(view: View): RenderItemBounds {
+        if (!view.evaluate) {
+            return { left : 0, right: 0, top: 0, bottom: 0 };
+        }
         if (!this.lastPointsNeedRecalc) {
             return this.lastPointsBounding;
         }
@@ -142,7 +145,7 @@ export class Function implements RenderItem {
         for (let i = 0; i <= this.resolution; i += 1) {
             let y = 0;
             try {
-                y = evaluate(this.function, { x });
+                y = view.evaluate(this.function, x);
             } catch (e) {
                 continue;
             }

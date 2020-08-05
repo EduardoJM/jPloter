@@ -46,6 +46,11 @@ export class View {
     items: RenderItem[];
 
     /**
+     * evaluate expression method (used in Function object).
+     */
+    evaluate?: (expr: string, x: number) => number;
+
+    /**
      * the current render list.
      */
     renderList: RenderItem[];
