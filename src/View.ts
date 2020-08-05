@@ -1,24 +1,59 @@
 import { RenderItem } from './Items/RenderItem';
+import { overlapBoundings } from './Utils/bounding';
 
 export class View {
+    /**
+     * the HTMLCanvasElement to render the View.
+     */
     canvas: HTMLCanvasElement;
     
+    /**
+     * the CanvasRenderingContext2D to render the View.
+     */
     context: CanvasRenderingContext2D;
 
+    /**
+     * the zoom factor of the View.
+     */
     zoom: {
+        /**
+         * x zoom factor of the View.
+         */
         x: number;
+        /**
+         * y zoom factor of the View.
+         */
         y: number;
     };
 
+    /**
+     * the View translation.
+     */
     translation: {
+        /**
+         * x coordinate of the View translation.
+         */
         x: number;
+        /**
+         * y coordinate of the View translation.
+         */
         y: number;
     }
 
+    /**
+     * the items in this View.
+     */
     items: RenderItem[];
 
+    /**
+     * the current render list.
+     */
     renderList: RenderItem[];
 
+    /**
+     * creates a new instance of View.
+     * @param canvas the HTMLCanvasElement to render.
+     */
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
         const context = this.canvas.getContext('2d');
@@ -38,6 +73,9 @@ export class View {
         this.renderList = [];
     }
 
+    /**
+     * render the view items.
+     */
     render() {
         this.context.resetTransform();
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -52,20 +90,19 @@ export class View {
         // calculate bounding and check if overlap to screen
         this.renderList = this.items.filter((item) => {
             const rc = item.getBounding(this);
-            if (screenBounds.left >= rc.right || rc.left >= screenBounds.right) {
-                return false;
-            }
-            if (screenBounds.top >= rc.bottom || rc.top >= screenBounds.bottom) {
-                return false;
-            }
-            return true;
+            return overlapBoundings(screenBounds, rc);
         });
-        console.log('rendering ', this.renderList.length, ' items');
+        
         this.renderList.forEach((item) => {
             item.render(this);
         });
     }
 
+    /**
+     * convert a real space point to canvas.
+     * @param x the x point coordinate.
+     * @param y the y point coordinate.
+     */
     spacePointToCanvas(x: number, y: number) {
         return {
             x: (x - this.translation.x) * this.zoom.x,
@@ -73,6 +110,11 @@ export class View {
         };
     }
 
+    /**
+     * convert a canvas point to real space.
+     * @param x the x point coordinate.
+     * @param y the y point coordinate.
+     */
     canvasPointToSpace(x: number, y: number) {
         return {
             x: x / this.zoom.x - this.translation.x,
@@ -80,6 +122,10 @@ export class View {
         };
     }
 
+    /**
+     * get a item by it name.
+     * @param name the name to find the item in the list.
+     */
     getItemByName(name: string): RenderItem | null {
         const filtered = this.items.filter((item) => {
             return (item.name === name)

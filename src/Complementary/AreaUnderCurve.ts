@@ -1,15 +1,11 @@
 import { evaluate } from 'mathjs';
 import { View } from '../View';
-import { RenderItem, RenderItemBounds } from '../Items/RenderItem';
+import { RenderItem, RenderItemCreateOptions, RenderItemBounds } from '../Items/RenderItem';
 import { Function } from '../Items/Function';
 import { overlapBoundings } from '../Utils/bounding';
 import { applyProps } from '../Utils/props';
 
-export interface AreaUnderCurveCreateOptions {
-    /**
-     * The RenderItem name.
-     */
-    name?: string;
+export interface AreaUnderCurveCreateOptions extends RenderItemCreateOptions {
     /**
      * The curve name to fill the area under it.
      */

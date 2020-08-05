@@ -1,12 +1,8 @@
-import { RenderItem, RenderItemBounds } from './RenderItem';
+import { RenderItem, RenderItemCreateOptions, RenderItemBounds } from './RenderItem';
 import { View } from '../View';
 import { applyProps } from '../Utils/props';
 
-export interface AxisCreateOptions {
-    /**
-     * The RenderItem name.
-     */
-    name?: string;
+export interface AxisCreateOptions extends RenderItemCreateOptions {
     xAxis?: boolean;
     xAxisWidth?: number;
     xAxisColor?: string;

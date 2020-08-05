@@ -1,13 +1,9 @@
 import { evaluate } from 'mathjs';
-import { RenderItem, RenderItemBounds } from './RenderItem';
+import { RenderItem, RenderItemCreateOptions, RenderItemBounds } from './RenderItem';
 import { View } from '../View';
 import { applyProps } from '../Utils/props';
 
-export interface FunctionCreateOptions {
-    /**
-     * The RenderItem name.
-     */
-    name?: string;
+export interface FunctionCreateOptions extends RenderItemCreateOptions {
     /**
      * Graph function resolution (number of points to draw).
      */

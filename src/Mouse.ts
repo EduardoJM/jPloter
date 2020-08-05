@@ -1,21 +1,61 @@
 import { View } from './View';
 
 export class Mouse {
+    /**
+     * the View.
+     */
     view: View;
 
+    /**
+     * a boolean value indicating if the Mouse drag operations is active.
+     */
     active: boolean;
 
+    /**
+     * a boolean value indicating if the Mouse zoom operations is active.
+     */
     canZoom: boolean;
 
+    /**
+     * the minimum acceptable zoom value.
+     */
+    zoomMin: number;
+
+    /**
+     * the maximum acceptable zoom value.
+     */
+    zoomMax: number;
+
+    /**
+     * the zoom delta velocity.
+     */
+    zoomDelta: number;
+
+    /**
+     * the dragging start position x coordinate.
+     */
     startX: number;
     
+    /**
+     * the dragging start position y coordinate.
+     */
     startY: number;
 
+    /**
+     * a boolean value indicating if is current dragging.
+     */
     dragging: boolean;
 
+    /**
+     * creates a new instance of Mouse utilities for View.
+     * @param canvasView the View to operate the mouse events.
+     */
     constructor(canvasView: View) {
         this.active = false;
         this.canZoom = false;
+        this.zoomMin = 1;
+        this.zoomMax = 1000;
+        this.zoomDelta = 4;
         this.startX = 0;
         this.startY = 0;
         this.dragging = false;
@@ -28,33 +68,56 @@ export class Mouse {
         this.view.canvas.addEventListener('wheel', this.wheel);
     }
 
+    /**
+     * disable the drag operations.
+     */
     disable() {
         this.active = false;
     }
 
+    /**
+     * enable the drag operations.
+     */
     enable() {
         this.active = true;
     }
 
+    /**
+     * enable the zoom operations.
+     */
     enableZoom() {
         this.canZoom = true;
     }
 
+    /**
+     * disable the zoom operations.
+     */
     disableZoom() {
         this.canZoom = false;
     }
 
+    /**
+     * remove events.
+     */
     remove() {
         this.view.canvas.removeEventListener('mousedown', this.mouseDown);
         this.view.canvas.removeEventListener('wheel', this.wheel);
     }
 
+    /**
+     * document mouseUp event.
+     * @param e mouseUp event data.
+     */
     mouseUp(e: MouseEvent) {
         this.dragging = false;
         document.removeEventListener('mousemove', this.mouseMove);
         document.removeEventListener('mouseup', this.mouseUp);
     }
 
+    /**
+     * document mouseMove event.
+     * @param e mouseMove event data.
+     */
     mouseMove(e: MouseEvent) {
         if (!this.dragging) {
             return;
@@ -73,6 +136,10 @@ export class Mouse {
         this.view.render();
     }
 
+    /**
+     * canvas mouseDown event.
+     * @param e mouseDown event data.
+     */
     mouseDown(e: MouseEvent) {
         if (!this.active) {
             return;
@@ -85,22 +152,45 @@ export class Mouse {
         document.addEventListener('mouseup', this.mouseUp);
     }
 
+    /**
+     * canvas wheel event.
+     * @param e wheel event data.
+     */
     wheel(e: WheelEvent) {
         if (!this.canZoom) {
+            return;
+        }
+        const delta = (e.deltaY / Math.abs(e.deltaY)) * this.zoomDelta;
+        // zoom
+        const zoomX = Math.max(
+            this.zoomMin,
+            Math.min(
+                this.zoomMax,
+                this.view.zoom.x - delta
+            )
+        );
+        const zoomY = Math.max(
+            this.zoomMin,
+            Math.min(
+                this.zoomMax,
+                this.view.zoom.y - delta
+            )
+        );
+        if (zoomX === this.view.zoom.x && zoomY === this.view.zoom.y) {
             return;
         }
         // this translation is to zoom with the center in focus
         const w = this.view.canvas.width / this.view.zoom.x;
         const h = this.view.canvas.height / this.view.zoom.y;
-        const nw = this.view.canvas.width / (this.view.zoom.x - e.deltaY);
-        const nh = this.view.canvas.height / (this.view.zoom.y - e.deltaY);
+        const nw = this.view.canvas.width / zoomX;
+        const nh = this.view.canvas.height / zoomY;
         this.view.translation = {
             x: this.view.translation.x - ((nw - w) / 2),
             y: this.view.translation.y - ((nh - h) / 2),
         };
         this.view.zoom = {
-            x: this.view.zoom.x - e.deltaY,
-            y: this.view.zoom.y - e.deltaY
+            x: zoomX,
+            y: zoomY
         };
         this.view.render();
     }

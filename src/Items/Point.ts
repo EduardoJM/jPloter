@@ -1,15 +1,11 @@
-import { RenderItem, RenderItemBounds } from './RenderItem';
+import { RenderItem, RenderItemCreateOptions, RenderItemBounds } from './RenderItem';
 import { View } from '../View';
 import { applyProps } from '../Utils/props';
 
 /**
  * Options for point creation.
  */
-export interface PointCreateOptions {
-    /**
-     * The RenderItem name.
-     */
-    name?: string;
+export interface PointCreateOptions extends RenderItemCreateOptions {
     /**
      * x position of the point.
      */
