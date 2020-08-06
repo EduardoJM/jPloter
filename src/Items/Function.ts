@@ -2,6 +2,7 @@
 import { RenderItem, RenderItemCreateOptions, RenderItemBounds } from './RenderItem';
 import { View } from '../View';
 import { applyProps } from '../Utils/props';
+import { LineStyle, LineStyleOptions } from '../LineStyle';
 
 export interface FunctionCreateOptions extends RenderItemCreateOptions {
     /**
@@ -9,13 +10,9 @@ export interface FunctionCreateOptions extends RenderItemCreateOptions {
      */
     resolution?: number;
     /**
-     * Graph line color.
+     * The line style options.
      */
-    color?: string;
-    /**
-     * Graph line width.
-     */
-    lineWidth?: number;
+    lineStyle?: LineStyleOptions;
     /**
      * The y(x) function to render.
      */
@@ -40,14 +37,9 @@ export class Function implements RenderItem {
     resolution: number;
     
     /**
-     * Graph line color.
+     * The line style.
      */
-    color: string;
-
-    /**
-     * Graph line width.
-     */
-    lineWidth: number;
+    lineStyle: LineStyle;
 
     /**
      * The y(x) function to render.
@@ -74,8 +66,7 @@ export class Function implements RenderItem {
     constructor(opts?: FunctionCreateOptions) {
         this.name = '';
         this.resolution = 200;
-        this.color = 'black';
-        this.lineWidth = 1;
+        this.lineStyle = new LineStyle();
         this.function = '';
         this.breakDistance = 100;
         // utils
@@ -89,7 +80,7 @@ export class Function implements RenderItem {
     }
 
     render(view: View) {
-        if (this.lineWidth <= 0 || this.function === '') {
+        if (this.lineStyle.lineWidth <= 0 || this.function === '') {
             return;
         }
         this.lastPoints.forEach((points) => {
@@ -101,8 +92,7 @@ export class Function implements RenderItem {
                     view.context.lineTo(points[i].x, points[i].y);
                 }
             }
-            view.context.strokeStyle = this.color;
-            view.context.lineWidth = this.lineWidth;
+            this.lineStyle.applyTo(view);
             view.context.stroke();
         });
     }
@@ -129,7 +119,7 @@ export class Function implements RenderItem {
             return this.lastPointsBounding;
         }
         this.lastPointsBounding = { left: 0, top: 0, right: 0, bottom: 0 };
-        if (this.lineWidth <= 0 || this.function === '') {
+        if (this.lineStyle.lineWidth <= 0 || this.function === '') {
             return this.lastPointsBounding;
         }
         const left = view.translation.x;

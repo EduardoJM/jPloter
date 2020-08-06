@@ -33,8 +33,11 @@
             const canvas = document.getElementById('plot');
             const view = new jPlot.View(canvas);
             const func = new jPlot.Function({
-                color: 'black',
-                lineWidth: 2,
+                lineStyle: {
+                    lineWidth: 2,
+                    color: '#FF0000',
+                    type: 'dash'
+                },
                 function: 'cos(x)'
             });
             func.name = 'f';
@@ -52,13 +55,18 @@
             };
             view.items.push(func);
 
-            view.items.push(new jPlot.Axis({
-                xAxisWidth: 2,
-                yAxisWidth: 2,
-                xAxisThickStyle: 'lower',
-                yAxisThickStyle: 'right',
-                arrowSize: 15
-            }));
+            view.items.push(new jPlot.Axis());
+
+            view.items.push(new jPlot.Point({
+                x: 1,
+                y: 1,
+                stroke: true,
+                strokeStyle: {
+                    lineWidth: 1,
+                    color: '#FF0000'
+                }
+            }))
+
             view.zoom = { x: 100, y: 100 };
             view.translation = { x: -2.5, y: -2.5 };
             

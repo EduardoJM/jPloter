@@ -37,3 +37,10 @@ And, now, open the `demo/index.html` and the demo is here.
 ```bash
 npm run build
 ```
+
+## References
+
+### HTML5 Canvas
+
+- [The HTML5 Canvas Handbook](http://bucephalus.org/text/CanvasHandbook/CanvasHandbook.html)
+- [CanvasRenderingContext2D - Web APIs | MDN](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D)

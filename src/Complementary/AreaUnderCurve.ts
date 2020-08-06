@@ -4,6 +4,7 @@ import { RenderItem, RenderItemCreateOptions, RenderItemBounds } from '../Items/
 import { Function } from '../Items/Function';
 import { overlapBoundings } from '../Utils/bounding';
 import { applyProps } from '../Utils/props';
+import { LineStyleOptions, LineStyle } from '../LineStyle';
 
 export interface AreaUnderCurveCreateOptions extends RenderItemCreateOptions {
     /**
@@ -33,11 +34,7 @@ export interface AreaUnderCurveCreateOptions extends RenderItemCreateOptions {
     /**
      * The stroke style for the area.
      */
-    strokeStyle?: string;
-    /**
-     * The stroke width for the area.
-     */
-    strokeWidth?: number;
+    strokeStyle?: LineStyleOptions;
 }
 
 export class AreaUnderCurve implements RenderItem {
@@ -72,11 +69,7 @@ export class AreaUnderCurve implements RenderItem {
     /**
      * The stroke style for the area.
      */
-    strokeStyle: string;
-    /**
-     * The stroke width for the area.
-     */
-    strokeWidth: number;
+    strokeStyle: LineStyle;
 
     polygon: { x: number; y: number; }[];
 
@@ -88,8 +81,7 @@ export class AreaUnderCurve implements RenderItem {
         this.fill = true;
         this.fillStyle = 'rgba(255, 255, 255, 0.4)';
         this.stroke = false;
-        this.strokeStyle = 'black';
-        this.strokeWidth = 1;
+        this.strokeStyle = new LineStyle();
         this.polygon = [];
 
         applyProps(opts, this);
@@ -116,8 +108,7 @@ export class AreaUnderCurve implements RenderItem {
             view.context.fill();
         }
         if (this.stroke) {
-            view.context.strokeStyle = this.strokeStyle;
-            view.context.lineWidth = this.strokeWidth;
+            this.strokeStyle.applyTo(view);
             view.context.stroke();
         }
     }

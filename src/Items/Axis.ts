@@ -1,30 +1,27 @@
 import { RenderItem, RenderItemCreateOptions, RenderItemBounds } from './RenderItem';
 import { View } from '../View';
 import { applyProps } from '../Utils/props';
+import { LineStyle, LineStyleOptions } from '../LineStyle';
 
 export interface AxisCreateOptions extends RenderItemCreateOptions {
     xAxis?: boolean;
-    xAxisWidth?: number;
-    xAxisColor?: string;
+    xAxisStyle?: LineStyleOptions;
     yAxis?: boolean;
-    yAxisWidth?: number;
-    yAxisColor?: string;
+    yAxisStyle?: LineStyleOptions;
     arrows?: boolean;
     arrowSize?: number;
 
     xAxisThick?: boolean;
     xAxisThickSize?: number;
-    xAxisThickWidth?: number;
-    xAxisThickStyle?: 'upper' | 'lower' | 'middle';
-    xAxisThickColor?: string;
+    xAxisThickStyle?: LineStyleOptions;
+    xAxisThickPosition?: 'upper' | 'lower' | 'middle';
     xAxisThickNumbers?: boolean;
     xAxisThickFont?: string;
 
     yAxisThick?: boolean;
     yAxisThickSize?: number;
-    yAxisThickWidth?: number;
-    yAxisThickStyle?: 'left' | 'right' | 'middle';
-    yAxisThickColor?: string;
+    yAxisThickStyle?: LineStyleOptions;
+    yAxisThickPosition?: 'left' | 'right' | 'middle';
     yAxisThickNumbers?: boolean;
     yAxisThickFont?: string;
 }
@@ -34,15 +31,11 @@ export class Axis implements RenderItem {
 
     xAxis: boolean;
 
-    xAxisWidth: number;
-
-    xAxisColor: string;
+    xAxisStyle: LineStyle;
 
     yAxis: boolean;
 
-    yAxisWidth: number;
-
-    yAxisColor: string;
+    yAxisStyle: LineStyle;
 
     arrows: boolean;
 
@@ -52,11 +45,9 @@ export class Axis implements RenderItem {
 
     xAxisThickSize: number;
 
-    xAxisThickWidth: number;
+    xAxisThickStyle: LineStyle;
 
-    xAxisThickStyle: 'upper' | 'lower' | 'middle';
-
-    xAxisThickColor: string;
+    xAxisThickPosition: 'upper' | 'lower' | 'middle';
 
     xAxisThickNumbers: boolean;
 
@@ -66,11 +57,9 @@ export class Axis implements RenderItem {
 
     yAxisThickSize: number;
     
-    yAxisThickWidth: number;
+    yAxisThickStyle: LineStyle;
 
-    yAxisThickStyle: 'left' | 'right' | 'middle';
-    
-    yAxisThickColor: string;
+    yAxisThickPosition: 'left' | 'right' | 'middle';
 
     yAxisThickNumbers: boolean;
 
@@ -79,25 +68,21 @@ export class Axis implements RenderItem {
     constructor(opts?: AxisCreateOptions) {
         this.name = '';
         this.xAxis = true;
-        this.xAxisWidth = 2;
-        this.xAxisColor = 'black';
+        this.xAxisStyle = new LineStyle();
         this.yAxis = true;
-        this.yAxisWidth = 2;
-        this.yAxisColor = 'black';
+        this.yAxisStyle = new LineStyle();
         this.arrows = true;
         this.arrowSize = 10;
         this.xAxisThick = true;
         this.xAxisThickSize = 10;
-        this.xAxisThickWidth = 2;
-        this.xAxisThickStyle = 'middle';
-        this.xAxisThickColor = 'black';
+        this.xAxisThickStyle = new LineStyle();
+        this.xAxisThickPosition = 'middle';
         this.xAxisThickNumbers = true;
         this.xAxisThickFont = 'Arial 16px';
         this.yAxisThick = true;
         this.yAxisThickSize = 10;
-        this.yAxisThickWidth = 2;
-        this.yAxisThickStyle = 'middle';
-        this.yAxisThickColor = 'black';
+        this.yAxisThickStyle = new LineStyle();
+        this.yAxisThickPosition = 'middle';
         this.yAxisThickNumbers = true;
         this.yAxisThickFont = 'Arial 16px';
         
@@ -129,7 +114,9 @@ export class Axis implements RenderItem {
     renderThickText(view: View, text: string, x: number, y: number, isXaxis: boolean) {
         const transform = view.context.getTransform();
         view.context.textAlign = 'center';
-        view.context.fillStyle = isXaxis ? this.xAxisThickColor : this.yAxisThickColor;
+        view.context.fillStyle = isXaxis 
+            ? this.xAxisThickStyle.getContextStyle()
+            : this.yAxisThickStyle.getContextStyle();
         view.context.font = isXaxis ? this.xAxisThickFont : this.yAxisThickFont;
         view.context.fillText(text, x, y);
         view.context.setTransform(transform);
@@ -148,8 +135,7 @@ export class Axis implements RenderItem {
                 this.arrows ? right - this.arrowSize : right,
                 middleY
             );
-            view.context.strokeStyle = this.xAxisColor;
-            view.context.lineWidth = this.xAxisWidth;
+            this.xAxisStyle.applyTo(view);
             view.context.stroke();
             // x arrow
             if (this.arrows) {
@@ -163,7 +149,7 @@ export class Axis implements RenderItem {
                     middleY + (this.arrowSize / 2)
                 );
                 view.context.lineTo(right, middleY);
-                view.context.fillStyle = this.xAxisColor;
+                view.context.fillStyle = this.xAxisStyle.getContextStyle();
                 view.context.fill();
             }
             // x thicks
@@ -179,18 +165,17 @@ export class Axis implements RenderItem {
                     view.context.beginPath();
                     const { x: pX } = view.spacePointToCanvas(i, 0);
                     const sz = this.xAxisThickSize;
-                    if (this.xAxisThickStyle === 'middle') {
+                    if (this.xAxisThickPosition === 'middle') {
                         view.context.moveTo(pX, middleY - (sz / 2));
                         view.context.lineTo(pX, middleY + (sz / 2));
-                    } else if (this.xAxisThickStyle === 'lower') {
+                    } else if (this.xAxisThickPosition === 'lower') {
                         view.context.moveTo(pX, middleY);
                         view.context.lineTo(pX, middleY + sz);
                     } else {
                         view.context.moveTo(pX, middleY);
                         view.context.lineTo(pX, middleY - sz);
                     }
-                    view.context.strokeStyle = this.xAxisThickColor;
-                    view.context.lineWidth = this.xAxisThickWidth;
+                    this.xAxisThickStyle.applyTo(view);
                     view.context.stroke();
                     if (this.xAxisThickNumbers) {
                         this.renderThickText(view, i.toString(), pX, middleY + (sz + 10), true);
@@ -221,8 +206,7 @@ export class Axis implements RenderItem {
                 this.arrows ? top + this.arrowSize : top
             );
             view.context.lineTo(middleX, bottom);
-            view.context.strokeStyle = this.yAxisColor;
-            view.context.lineWidth = this.yAxisWidth;
+            this.yAxisStyle.applyTo(view);
             view.context.stroke();
             // y arrow
             if (this.arrows) {
@@ -236,7 +220,7 @@ export class Axis implements RenderItem {
                     top + this.arrowSize
                 );
                 view.context.lineTo(middleX, top);
-                view.context.fillStyle = this.yAxisColor;
+                view.context.fillStyle = this.yAxisStyle.getContextStyle();
                 view.context.fill();
             }
             // y thicks
@@ -252,18 +236,17 @@ export class Axis implements RenderItem {
                     view.context.beginPath();
                     const { y: pY } = view.spacePointToCanvas(0, -i);
                     const sz = this.yAxisThickSize;
-                    if (this.yAxisThickStyle === 'middle') {
+                    if (this.yAxisThickPosition === 'middle') {
                         view.context.moveTo(middleX - sz / 2, pY);
                         view.context.lineTo(middleX + sz / 2, pY);
-                    } else if (this.yAxisThickStyle === 'left') {
+                    } else if (this.yAxisThickPosition === 'left') {
                         view.context.moveTo(middleX - sz, pY);
                         view.context.lineTo(middleX, pY);
                     } else {
                         view.context.moveTo(middleX, pY);
                         view.context.lineTo(middleX + sz, pY);
                     }
-                    view.context.strokeStyle = this.yAxisThickColor;
-                    view.context.lineWidth = this.yAxisThickWidth;
+                    this.yAxisThickStyle.applyTo(view);
                     view.context.stroke();
 
                     if (this.yAxisThickNumbers) {
@@ -294,18 +277,18 @@ export class Axis implements RenderItem {
         if (this.xAxis) {
             boundingLeft = left;
             boundingRight = right;
-            boundingTop = middleY - (this.xAxisWidth / 2);
-            boundingBottom = middleY + (this.xAxisWidth / 2);
+            boundingTop = middleY - (this.xAxisStyle.lineWidth / 2);
+            boundingBottom = middleY + (this.xAxisStyle.lineWidth / 2);
             if (this.arrows) {
                 boundingTop = middleY - (this.arrowSize / 2);
                 boundingBottom = middleY + (this.arrowSize / 2);
             }
             if (this.xAxisThick) {
                 const sz = this.xAxisThickSize;
-                if (this.xAxisThickStyle === 'middle') {
+                if (this.xAxisThickPosition === 'middle') {
                     boundingTop = Math.min(boundingTop, middleY - (sz / 2));
                     boundingBottom = Math.max(boundingBottom, middleY + (sz / 2));
-                } else if (this.xAxisThickStyle === 'lower') {
+                } else if (this.xAxisThickPosition === 'lower') {
                     boundingTop = Math.min(boundingTop, middleY);
                     boundingBottom = Math.max(boundingBottom, middleY + sz);
                 } else {
@@ -318,8 +301,8 @@ export class Axis implements RenderItem {
             }
         }
         if (this.yAxis) {
-            boundingLeft = Math.min(boundingLeft, middleX - (this.yAxisWidth / 2));
-            boundingRight = Math.max(boundingRight, middleX + (this.yAxisWidth / 2));
+            boundingLeft = Math.min(boundingLeft, middleX - (this.yAxisStyle.lineWidth / 2));
+            boundingRight = Math.max(boundingRight, middleX + (this.yAxisStyle.lineWidth / 2));
             boundingTop = Math.min(boundingTop, top);
             boundingBottom = Math.max(boundingBottom, bottom);
             if (this.arrows) {
@@ -328,10 +311,10 @@ export class Axis implements RenderItem {
             }
             if (this.yAxisThick) {
                 const sz = this.yAxisThickSize;
-                if (this.yAxisThickStyle === 'middle') {
+                if (this.yAxisThickPosition === 'middle') {
                     boundingLeft = Math.min(boundingLeft, middleX - (sz / 2));
                     boundingRight = Math.max(boundingRight, middleX + (sz / 2));
-                } else if (this.yAxisThickStyle === 'left') {
+                } else if (this.yAxisThickPosition === 'left') {
                     boundingLeft = Math.min(boundingLeft, middleX - sz);
                     boundingRight = Math.max(boundingRight, middleX);
                 } else {

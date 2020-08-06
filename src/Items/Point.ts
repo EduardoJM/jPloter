@@ -1,6 +1,7 @@
 import { RenderItem, RenderItemCreateOptions, RenderItemBounds } from './RenderItem';
 import { View } from '../View';
 import { applyProps } from '../Utils/props';
+import { LineStyle, LineStyleOptions } from '../LineStyle';
 
 /**
  * Options for point creation.
@@ -23,13 +24,9 @@ export interface PointCreateOptions extends RenderItemCreateOptions {
      */
     stroke?: boolean;
     /**
-     * the stroke color of the point.
+     * the stroke style of the point.
      */
-    strokeColor?: string;
-    /**
-     * the stroke width of the point.
-     */
-    strokeWidth?: number;
+    strokeStyle?: LineStyleOptions;
     /**
      * the size of the point.
      */
@@ -66,14 +63,9 @@ export class Point implements RenderItem {
     stroke: boolean;
 
     /**
-     * the stroke color of the point.
+     * the stroke style of the point.
      */
-    strokeColor: string;
-
-    /**
-     * the stroke width of the point.
-     */
-    strokeWidth: number;
+    strokeStyle: LineStyle;
 
     /**
      * the size of the point.
@@ -86,8 +78,7 @@ export class Point implements RenderItem {
         this.y = 0;
         this.color = 'black';
         this.stroke = false;
-        this.strokeColor = 'black';
-        this.strokeWidth = 1;
+        this.strokeStyle = new LineStyle();
         this.pointSize = 5;
 
         applyProps(opts, this);
@@ -109,9 +100,8 @@ export class Point implements RenderItem {
             false
         );
         view.context.fill();
-        if (this.stroke && this.strokeWidth > 0) {
-            view.context.strokeStyle = this.strokeColor;
-            view.context.lineWidth = this.strokeWidth;
+        if (this.stroke && this.strokeStyle.lineWidth > 0) {
+            this.strokeStyle.applyTo(view);
             view.context.stroke();
         }
     }
