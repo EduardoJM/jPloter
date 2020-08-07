@@ -1,5 +1,5 @@
-import { LineStyle } from '../LineStyle';
-import { Color } from '../Color';
+import { LineStyle } from '../Style/LineStyle';
+import { Color } from '../Style/Color';
 
 /**
  * Utility to apply props from CreateOptions objects to the class.

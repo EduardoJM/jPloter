@@ -73,6 +73,12 @@
             const mouse = new jPlot.Mouse(view);
             mouse.enable();
             mouse.enableZoom();
+            mouse.addEventListener('dragstop', function(){
+                console.log('drag stoped!');
+            });
+            mouse.addEventListener('zoomchange', function(){
+                console.log('zoom changed!');
+            });
 
             const input = document.getElementById('func');
             input.addEventListener('keyup', function(){
