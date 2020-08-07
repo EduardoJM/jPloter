@@ -1,7 +1,7 @@
 import { RenderItem, RenderItemCreateOptions, RenderItemBounds } from './RenderItem';
 import { View } from '../View';
 import { applyProps } from '../Utils/props';
-import { LineStyle, LineStyleOptions } from '../LineStyle';
+import { LineStyle, LineStyleOptions } from '../Style/LineStyle';
 
 export interface AxisCreateOptions extends RenderItemCreateOptions {
     xAxis?: boolean;

@@ -4,7 +4,7 @@ import { RenderItem, RenderItemCreateOptions, RenderItemBounds } from '../Items/
 import { Function } from '../Items/Function';
 import { overlapBoundings } from '../Utils/bounding';
 import { applyProps } from '../Utils/props';
-import { LineStyleOptions, LineStyle } from '../LineStyle';
+import { LineStyleOptions, LineStyle } from '../Style/LineStyle';
 
 export interface AreaUnderCurveCreateOptions extends RenderItemCreateOptions {
     /**

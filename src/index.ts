@@ -1,8 +1,8 @@
 export * from './View';
 export * from './Mouse';
 // Styles
-export * from './Color';
-export * from './LineStyle';
+export * from './Style/Color';
+export * from './Style/LineStyle';
 // Items
 export * from './Items/RenderItem';
 export * from './Items/Point';
@@ -19,8 +19,8 @@ import { Axis } from './Items/Axis';
 // Complementary Items
 import { AreaUnderCurve } from './Complementary/AreaUnderCurve';
 // Styles
-import { Color } from './Color';
-import { LineStyle } from './LineStyle';
+import { Color } from './Style/Color';
+import { LineStyle } from './Style/LineStyle';
 
 export default {
     View,
