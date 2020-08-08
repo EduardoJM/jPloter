@@ -1,3 +1,5 @@
+import ColorNames from './ColorNames';
+
 export class Color {
     /**
      * red color component.
@@ -53,7 +55,15 @@ export class Color {
         if (hex.indexOf('#') > -1) {
             hexStr = hex.substring(1);
         }
-        // TODO: add hex support for #RGB format
+        if (!/^([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(hexStr)) {
+            return new Color();
+        }
+        if (hexStr.length === 3) {
+            const r = hexStr[0];
+            const g = hexStr[1];
+            const b = hexStr[2];
+            hexStr = `${r}${r}${g}${g}${b}${b}`;
+        }
         const hexNumber = parseInt(hexStr, 16);
         return Color.fromRgb(
             hexNumber >> 16,
@@ -83,7 +93,10 @@ export class Color {
             }
             return new Color();
         }
-        // TODO: add support for color name and the rgba format (removing alpha)
+        if (Object.prototype.hasOwnProperty.call(ColorNames, trimed.toLowerCase())) {
+            const hexStr = (ColorNames as any)[trimed.toLowerCase()] as string;
+            return Color.fromHex(hexStr);
+        }
         return Color.fromHex(str);
     }
 }
