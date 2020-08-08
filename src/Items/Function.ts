@@ -92,7 +92,7 @@ export class Function implements RenderItem {
                     view.context.lineTo(points[i].x, points[i].y);
                 }
             }
-            this.lineStyle.applyTo(view);
+            this.lineStyle.applyTo(view.context);
             view.context.stroke();
         });
     }

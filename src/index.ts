@@ -3,6 +3,10 @@ export * from './Mouse';
 // Styles
 export * from './Style/Color';
 export * from './Style/LineStyle';
+export * from './Style/FillStyle';
+export * from './Style/FillStyleOptions';
+export * from './Style/PatternLine';
+export * from './Style/SolidFill';
 // Items
 export * from './Items/RenderItem';
 export * from './Items/Point';
@@ -21,6 +25,9 @@ import { AreaUnderCurve } from './Complementary/AreaUnderCurve';
 // Styles
 import { Color } from './Style/Color';
 import { LineStyle } from './Style/LineStyle';
+import { FillStyle } from './Style/FillStyle';
+import { PatternLine } from './Style/PatternLine';
+import { SolidFill } from './Style/SolidFill';
 
 export default {
     View,
@@ -28,7 +35,10 @@ export default {
     // Styles
     Styling: {
         Color,
-        LineStyle
+        LineStyle,
+        FillStyle,
+        PatternLine,
+        SolidFill
     },
     // Items
     Point,

@@ -5,6 +5,8 @@ import { Function } from '../Items/Function';
 import { overlapBoundings } from '../Utils/bounding';
 import { applyProps } from '../Utils/props';
 import { LineStyleOptions, LineStyle } from '../Style/LineStyle';
+import { FillStyle } from '../Style/FillStyle';
+import { FillStyleOptions } from '../Style/FillStyleOptions';
 
 export interface AreaUnderCurveCreateOptions extends RenderItemCreateOptions {
     /**
@@ -26,7 +28,7 @@ export interface AreaUnderCurveCreateOptions extends RenderItemCreateOptions {
     /**
      * The fill style for area.
      */
-    fillStyle?: string;
+    fillStyle?: FillStyleOptions;
     /**
      * A boolean value indicating if the area is stroked.
      */
@@ -61,7 +63,7 @@ export class AreaUnderCurve implements RenderItem {
     /**
      * The fill style for area.
      */
-    fillStyle: string;
+    fillStyle: FillStyle;
     /**
      * A boolean value indicating if the area is stroked.
      */
@@ -79,7 +81,7 @@ export class AreaUnderCurve implements RenderItem {
         this.left = 0;
         this.right = 0;
         this.fill = true;
-        this.fillStyle = 'rgba(255, 255, 255, 0.4)';
+        this.fillStyle = new FillStyle();
         this.stroke = false;
         this.strokeStyle = new LineStyle();
         this.polygon = [];
@@ -104,11 +106,11 @@ export class AreaUnderCurve implements RenderItem {
         });
         view.context.closePath();
         if (this.fill) {
-            view.context.fillStyle = this.fillStyle;
+            this.fillStyle.applyTo(view.context);
             view.context.fill();
         }
         if (this.stroke) {
-            this.strokeStyle.applyTo(view);
+            this.strokeStyle.applyTo(view.context);
             view.context.stroke();
         }
     }

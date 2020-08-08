@@ -2,6 +2,8 @@ import { RenderItem, RenderItemCreateOptions, RenderItemBounds } from './RenderI
 import { View } from '../View';
 import { applyProps } from '../Utils/props';
 import { LineStyle, LineStyleOptions } from '../Style/LineStyle';
+import { FillStyle } from '../Style/FillStyle';
+import { FillStyleOptions } from '../Style/FillStyleOptions';
 
 /**
  * Options for point creation.
@@ -16,9 +18,9 @@ export interface PointCreateOptions extends RenderItemCreateOptions {
      */
     y?: number;
     /**
-     * the fill color of the point.
+     * the fill style of the point.
      */
-    color?: string;
+    fillStyle?: FillStyleOptions;
     /**
      * a boolean value indicating if the point is stroked.
      */
@@ -53,9 +55,9 @@ export class Point implements RenderItem {
     y: number;
 
     /**
-     * a boolean value indicating if the point is stroked.
+     * the fill style of the point.
      */
-    color: string;
+    fillStyle: FillStyle;
 
     /**
      * a boolean value indicating if the point is stroked.
@@ -76,7 +78,7 @@ export class Point implements RenderItem {
         this.name = '';
         this.x = 0;
         this.y = 0;
-        this.color = 'black';
+        this.fillStyle = new FillStyle();
         this.stroke = false;
         this.strokeStyle = new LineStyle();
         this.pointSize = 5;
@@ -89,7 +91,7 @@ export class Point implements RenderItem {
             return;
         }
         const { x : px, y: py } = view.spacePointToCanvas(this.x, this.y);
-        view.context.fillStyle = this.color;
+        this.fillStyle.applyTo(view.context);
         view.context.beginPath();
         view.context.arc(
             px,
@@ -101,7 +103,7 @@ export class Point implements RenderItem {
         );
         view.context.fill();
         if (this.stroke && this.strokeStyle.lineWidth > 0) {
-            this.strokeStyle.applyTo(view);
+            this.strokeStyle.applyTo(view.context);
             view.context.stroke();
         }
     }

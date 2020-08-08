@@ -135,7 +135,7 @@ export class Axis implements RenderItem {
                 this.arrows ? right - this.arrowSize : right,
                 middleY
             );
-            this.xAxisStyle.applyTo(view);
+            this.xAxisStyle.applyTo(view.context);
             view.context.stroke();
             // x arrow
             if (this.arrows) {
@@ -175,7 +175,7 @@ export class Axis implements RenderItem {
                         view.context.moveTo(pX, middleY);
                         view.context.lineTo(pX, middleY - sz);
                     }
-                    this.xAxisThickStyle.applyTo(view);
+                    this.xAxisThickStyle.applyTo(view.context);
                     view.context.stroke();
                     if (this.xAxisThickNumbers) {
                         this.renderThickText(view, i.toString(), pX, middleY + (sz + 10), true);
@@ -206,7 +206,7 @@ export class Axis implements RenderItem {
                 this.arrows ? top + this.arrowSize : top
             );
             view.context.lineTo(middleX, bottom);
-            this.yAxisStyle.applyTo(view);
+            this.yAxisStyle.applyTo(view.context);
             view.context.stroke();
             // y arrow
             if (this.arrows) {
@@ -246,7 +246,7 @@ export class Axis implements RenderItem {
                         view.context.moveTo(middleX, pY);
                         view.context.lineTo(middleX + sz, pY);
                     }
-                    this.yAxisThickStyle.applyTo(view);
+                    this.yAxisThickStyle.applyTo(view.context);
                     view.context.stroke();
 
                     if (this.yAxisThickNumbers) {

@@ -43,8 +43,16 @@
             func.name = 'f';
             view.items.push(new jPlot.AreaUnderCurve({
                 curveName: 'f',
-                stroke: true,
-                strokeStyle: 'white',
+                stroke: false,
+                fillStyle: {
+                    type: 'patternLine',
+                    baseColor: '#FFFFFF',
+                    patternSize: 6,
+                    lineStyle: {
+                        lineWidth: 2,
+                        color: '#000000'
+                    }
+                },
                 left: 0,
                 right: 2,
             }));
@@ -60,6 +68,10 @@
             view.items.push(new jPlot.Point({
                 x: 1,
                 y: 1,
+                fillStyle: {
+                    type: 'solid',
+                    color: '#0000FF'
+                },
                 stroke: true,
                 strokeStyle: {
                     lineWidth: 1,

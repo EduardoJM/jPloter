@@ -1,5 +1,9 @@
 import { LineStyle } from '../Style/LineStyle';
 import { Color } from '../Style/Color';
+import { PatternLine } from '../Style/PatternLine';
+import { FillStyle } from '../Style/FillStyle';
+import { FillStyleOptions } from '../Style/FillStyleOptions';
+import { SolidFill } from '../Style/SolidFill';
 
 /**
  * Utility to apply props from CreateOptions objects to the class.
@@ -18,9 +22,20 @@ export function applyProps(props: any, applyTo: any) {
                 applyTo[k] = new LineStyle(props[k]);
             } else if (applyTo[k] instanceof Color) {
                 applyTo[k] = Color.fromString(props[k]);
+            } else if (applyTo[k] instanceof FillStyle) {
+                applyTo[k] = createFillStyleFromOptions(props[k]);
             } else {
                 applyTo[k] = props[k];
             }
         }
     });
+}
+
+export function createFillStyleFromOptions(opts: FillStyleOptions) {
+    if (opts.type === 'patternLine') {
+        return new PatternLine(opts);
+    } else if (opts.type === 'solid') {
+        return new SolidFill(opts);
+    }
+    return new FillStyle();
 }

@@ -59,16 +59,16 @@ export class LineStyle {
         return `rgba(${r}, ${g}, ${b}, ${this.opacity})`;
     }
 
-    applyTo(view: View) {
-        view.context.strokeStyle = this.getContextStyle();
-        view.context.lineWidth = this.lineWidth;
-        view.context.lineCap = this.lineCap;
-        view.context.lineJoin = this.lineJoin;
-        view.context.miterLimit = this.miterLimit;
+    applyTo(context: CanvasRenderingContext2D) {
+        context.strokeStyle = this.getContextStyle();
+        context.lineWidth = this.lineWidth;
+        context.lineCap = this.lineCap;
+        context.lineJoin = this.lineJoin;
+        context.miterLimit = this.miterLimit;
         if (this.type === 'dash') {
-            view.context.setLineDash([this.dashSize, this.dashDistance]);
+            context.setLineDash([this.dashSize, this.dashDistance]);
         } else {
-            view.context.setLineDash([]);
+            context.setLineDash([]);
         }
     }
 }
