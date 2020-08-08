@@ -9,15 +9,15 @@ export type LineStyleCap = 'butt' | 'square' | 'round';
 export type LineStyleJoin = 'round' | 'bevel' | 'miter';
 
 export interface LineStyleOptions {
-    color: string;
-    opacity: number;
-    type: LineStyleType;
-    lineWidth: number;
-    lineCap: LineStyleCap;
-    lineJoin: LineStyleJoin;
-    miterLimit: number;
-    dashSize: number;
-    dashDistance: number;
+    color?: string;
+    opacity?: number;
+    type?: LineStyleType;
+    lineWidth?: number;
+    lineCap?: LineStyleCap;
+    lineJoin?: LineStyleJoin;
+    miterLimit?: number;
+    dashSize?: number;
+    dashDistance?: number;
 }
 
 export class LineStyle {
@@ -54,8 +54,8 @@ export class LineStyle {
     }
 
     getContextStyle() {
-        this.opacity = Math.min(1, Math.max(0, this.opacity));
         const { r, g, b } = this.color;
+        this.opacity = Math.min(1, Math.max(0, this.opacity));
         return `rgba(${r}, ${g}, ${b}, ${this.opacity})`;
     }
 

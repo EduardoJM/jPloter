@@ -4,21 +4,26 @@ import { applyProps } from '../Utils/props';
 
 export interface SolidFillOptions {
     color?: string;
+    opacity?: number;
 }
 
 export class SolidFill extends FillStyle {
     color: Color;
 
+    opacity: number;
+
     constructor(opts?: SolidFillOptions) {
         super();
 
         this.color = new Color();
+        this.opacity = 1;
 
         applyProps(opts, this);
     }
 
     applyTo(context: CanvasRenderingContext2D): void {
         const { r, g, b } = this.color;
-        context.fillStyle = `rgb(${r}, ${g}, ${b})`;
+        this.opacity = Math.min(1, Math.max(0, this.opacity));
+        context.fillStyle = `rgba(${r}, ${g}, ${b}, ${this.opacity})`;
     }
 }

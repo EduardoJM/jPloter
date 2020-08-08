@@ -7,6 +7,7 @@ export interface PatternLineOptions {
     lineStyle?: LineStyleOptions;
     patternSize?: number;
     baseColor?: string;
+    opacity?: number;
 }
 
 export class PatternLine extends FillStyle {
@@ -15,6 +16,8 @@ export class PatternLine extends FillStyle {
     baseColor: Color;
 
     patternSize: number;
+
+    opacity: number;
 
     private patternCanvas: HTMLCanvasElement | null;
     private pattern: CanvasPattern | null;
@@ -25,6 +28,7 @@ export class PatternLine extends FillStyle {
         this.lineStyle = new LineStyle();
         this.patternSize = 32;
         this.baseColor = new Color();
+        this.opacity = 1;
 
         this.patternCanvas = null;
         this.pattern = null;
@@ -43,9 +47,11 @@ export class PatternLine extends FillStyle {
             return null;
         }
         const { r, g, b } = this.baseColor;
-        ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+        this.opacity = Math.min(1, Math.max(0, this.opacity));
+        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${this.opacity})`;
         ctx.fillRect(0, 0, this.patternSize, this.patternSize);
         
+        this.lineStyle.opacity = this.opacity;
         this.lineStyle.applyTo(ctx);
         ctx.beginPath();
         ctx.moveTo(-this.patternSize, 2 * this.patternSize);

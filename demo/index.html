@@ -32,11 +32,25 @@
         document.addEventListener('DOMContentLoaded', () => {
             const canvas = document.getElementById('plot');
             const view = new jPlot.View(canvas);
+
+            view.items.push(new jPlot.Point({
+                x: 1,
+                y: 1,
+                fillStyle: {
+                    type: 'solid',
+                    color: '#0000FF'
+                },
+                stroke: true,
+                strokeStyle: {
+                    lineWidth: 1,
+                    color: '#FF0000'
+                }
+            }));
             const func = new jPlot.Function({
                 lineStyle: {
                     lineWidth: 2,
                     color: '#FF0000',
-                    type: 'dash'
+                    type: 'solid'
                 },
                 function: 'cos(x)'
             });
@@ -47,7 +61,8 @@
                 fillStyle: {
                     type: 'patternLine',
                     baseColor: '#FFFFFF',
-                    patternSize: 6,
+                    opacity: 0.4,
+                    patternSize: 8,
                     lineStyle: {
                         lineWidth: 2,
                         color: '#000000'
@@ -64,20 +79,6 @@
             view.items.push(func);
 
             view.items.push(new jPlot.Axis());
-
-            view.items.push(new jPlot.Point({
-                x: 1,
-                y: 1,
-                fillStyle: {
-                    type: 'solid',
-                    color: '#0000FF'
-                },
-                stroke: true,
-                strokeStyle: {
-                    lineWidth: 1,
-                    color: '#FF0000'
-                }
-            }))
 
             view.zoom = { x: 100, y: 100 };
             view.translation = { x: -2.5, y: -2.5 };
