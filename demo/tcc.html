@@ -99,6 +99,11 @@
             view.zoom = { x: 80, y: 80 };
             view.translation = { x: -1, y: -5 };
 
+            view.addEventListener('renderbegin', function(ctx){
+                ctx.fillStyle = 'white';
+                ctx.fillRect(0, 0, 500, 500);
+            });
+
             view.render();
         });
     </script>
