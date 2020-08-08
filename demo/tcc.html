@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        body { background: #222; }
+        #figure { background: #CCC; }
+    </style>
+</head>
+<body>
+
+    <canvas id="figure" width="500" height="500"></canvas>
+
+    <script src="https://unpkg.com/mathjs@7.1.0/dist/math.min.js"></script>
+    <script src="dist/min/bundle.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('figure');
+            const view = new jPlot.View(canvas);
+            view.evaluate = function(expr, x) {
+                return math.evaluate(expr, { x });
+            };
+
+            view.items.push(new jPlot.Function({
+                lineStyle: {
+                    lineWidth: 2,
+                    color: 'red',
+                    type: 'solid'
+                },
+                function: '-exp(-x+3.2)+4',
+                domainStart: 2.5,
+                domainEnd: 4.6
+            }));
+
+            view.items.push(new jPlot.Function({
+                lineStyle: {
+                    lineWidth: 2,
+                    color: 'green',
+                    type: 'dash'
+                },
+                function: '-0.18*x*x+1.29*x-2.09',
+                domainStart: 2.5,
+                domainEnd: 4.6
+            }));
+
+            view.items.push(new jPlot.Function({
+                lineStyle: {
+                    lineWidth: 2,
+                    color: 'black',
+                    type: 'dash'
+                },
+                function: '-exp(-x+3.2)+4+2*(-0.18*x*x+1.29*x-2.09)',
+                domainStart: 2.5,
+                domainEnd: 4.6
+            }));
+
+            view.items.push(new jPlot.Function({
+                lineStyle: {
+                    lineWidth: 2,
+                    color: 'black',
+                    type: 'dash'
+                },
+                function: '-exp(-x+3.2)+4-4*(-0.18*x*x+1.29*x-2.09)',
+                domainStart: 2.5,
+                domainEnd: 4.6
+            }));
+
+            view.items.push(new jPlot.Point({
+                x: 2.5,
+                y: 1.95,
+                pointSize: 4,
+                fillStyle: {
+                    type: 'solid',
+                    color: 'black'
+                }
+            }));
+
+            view.items.push(new jPlot.Point({
+                x: 4.6,
+                y: 3.76,
+                pointSize: 4,
+                fillStyle: {
+                    type: 'solid',
+                    color: 'black'
+                }
+            }));
+
+            view.items.push(new jPlot.Axis({
+                xAxisStyle: {
+                    lineWidth: 2
+                },
+                yAxisStyle: {
+                    lineWidth: 2
+                }
+            }));
+
+            view.zoom = { x: 80, y: 80 };
+            view.translation = { x: -1, y: -5 };
+
+            view.render();
+        });
+    </script>
+    
+</body>
+</html>

@@ -23,6 +23,14 @@ export interface FunctionCreateOptions extends RenderItemCreateOptions {
      * breaks of limits in e.g. tan(x) and 1/x
      */
     breakDistance?: number;
+    /**
+     * Function rendering domain start.
+     */
+    domainStart?: number;
+    /**
+     * Function rendering domain end.
+     */
+    domainEnd?: number;
 }
 
 export class Function implements RenderItem {
@@ -54,6 +62,15 @@ export class Function implements RenderItem {
     breakDistance: number;
 
     /**
+     * Function rendering domain start.
+     */
+    domainStart: number;
+    /**
+     * Function rendering domain end.
+     */
+    domainEnd: number;
+
+    /**
      * Last computed points.
      */
     lastPoints: ({ x: number, y: number }[])[];
@@ -69,6 +86,8 @@ export class Function implements RenderItem {
         this.lineStyle = new LineStyle();
         this.function = '';
         this.breakDistance = 100;
+        this.domainStart = Number.NEGATIVE_INFINITY;
+        this.domainEnd = Number.POSITIVE_INFINITY;
         // utils
         this.lastPoints = [];
         // private
@@ -122,8 +141,15 @@ export class Function implements RenderItem {
         if (this.lineStyle.lineWidth <= 0 || this.function === '') {
             return this.lastPointsBounding;
         }
-        const left = view.translation.x;
-        const right = left + view.canvas.width / view.zoom.x;
+        let left = view.translation.x;
+        let right = left + view.canvas.width / view.zoom.x;
+        if (isFinite(this.domainStart)
+            && !isNaN(this.domainStart)
+            && isFinite(this.domainStart)
+            && !isNaN(this.domainStart)) {
+            left = Math.min(this.domainStart, this.domainEnd);
+            right = Math.max(this.domainStart, this.domainEnd);
+        }
         // get the interval size
         const interval = (right - left) / this.resolution;
         let x = left;
@@ -191,4 +217,3 @@ export class Function implements RenderItem {
         this.lastViewZoom = { x: Number.NaN, y: Number.NaN };
     }
 }
-
