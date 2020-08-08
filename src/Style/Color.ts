@@ -43,6 +43,7 @@ export class Color {
         c.r = r;
         c.g = g;
         c.b = b;
+        c.fix();
         return c;
     }
 

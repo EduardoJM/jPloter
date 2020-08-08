@@ -1,5 +1,4 @@
 import { Color } from './Color';
-import { View } from '../View';
 import { applyProps } from '../Utils/props';
 
 export type LineStyleType = 'dash' | 'solid';

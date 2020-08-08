@@ -4,20 +4,27 @@
   "description": "Small plotting library for JavaScript",
   "scripts": {
     "ex": "gulp examples",
-    "build": "tsc"
+    "build": "tsc",
+    "test": "jest"
   },
   "keywords": [],
   "author": "Eduardo Oliveira <eduardo_y05@outlook.com> (https://eduardojm.github.io/en/)",
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.11.1",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-typescript": "^7.10.4",
     "@commitlint/cli": "^9.1.2",
     "@commitlint/config-conventional": "^9.1.1",
+    "@types/jest": "^26.0.9",
+    "babel-jest": "^26.2.2",
     "browserify": "^16.5.1",
     "commitizen": "^4.1.2",
     "cz-conventional-changelog": "^3.2.0",
     "gulp": "^4.0.2",
     "gulp-uglify": "^3.0.2",
     "husky": "^4.2.5",
+    "jest": "^26.2.2",
     "tsify": "^4.0.2",
     "typescript": "^3.9.7",
     "uglify": "^0.1.5",

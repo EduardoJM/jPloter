@@ -44,3 +44,7 @@ npm run build
 
 - [The HTML5 Canvas Handbook](http://bucephalus.org/text/CanvasHandbook/CanvasHandbook.html)
 - [CanvasRenderingContext2D - Web APIs | MDN](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D)
+
+### Colors
+
+- [HTML Color Names](https://www.w3schools.com/colors/colors_names.asp)
