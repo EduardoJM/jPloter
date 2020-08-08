@@ -26,7 +26,7 @@ export class Color {
     /**
      * Fix the red, green and blue components to the range 0-255.
      */
-    fix() {
+    fix(): void {
         this.r = Math.min(255, Math.max(0, Math.round(this.r)));
         this.g = Math.min(255, Math.max(0, Math.round(this.g)));
         this.b = Math.min(255, Math.max(0, Math.round(this.b)));
@@ -95,6 +95,7 @@ export class Color {
             return new Color();
         }
         if (Object.prototype.hasOwnProperty.call(ColorNames, trimed.toLowerCase())) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const hexStr = (ColorNames as any)[trimed.toLowerCase()] as string;
             return Color.fromHex(hexStr);
         }

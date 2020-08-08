@@ -1,5 +1,4 @@
 import { Color } from './Color';
-import ColorNames from './ColorNames';
 
 test('Color.fromString with names must be correct', () => {
     const skyBlue = Color.fromString('SkyBlue');

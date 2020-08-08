@@ -1,12 +1,13 @@
 // import { evaluate } from 'mathjs';
 import { View } from '../View';
 import { RenderItem, RenderItemCreateOptions, RenderItemBounds } from '../Items/RenderItem';
-import { Function } from '../Items/Function';
+import { Function as FunctionItem } from '../Items/Function';
 import { overlapBoundings } from '../Utils/bounding';
 import { applyProps } from '../Utils/props';
 import { LineStyleOptions, LineStyle } from '../Style/LineStyle';
 import { FillStyle } from '../Style/FillStyle';
 import { FillStyleOptions } from '../Style/FillStyleOptions';
+import { SolidFill } from '../Style/SolidFill';
 
 export interface AreaUnderCurveCreateOptions extends RenderItemCreateOptions {
     /**
@@ -81,7 +82,7 @@ export class AreaUnderCurve implements RenderItem {
         this.left = 0;
         this.right = 0;
         this.fill = true;
-        this.fillStyle = new FillStyle();
+        this.fillStyle = new SolidFill();
         this.stroke = false;
         this.strokeStyle = new LineStyle();
         this.polygon = [];
@@ -89,7 +90,7 @@ export class AreaUnderCurve implements RenderItem {
         applyProps(opts, this);
     }
 
-    getRelativeResolution(view: View, width: number, func: Function): number {
+    getRelativeResolution(view: View, width: number, func: FunctionItem): number {
         const left = view.translation.x;
         const right = left + view.canvas.width / view.zoom.x;
         return Math.round((func.resolution * width) / (right - left));
@@ -132,7 +133,7 @@ export class AreaUnderCurve implements RenderItem {
         const curve = view.getItemByName(this.curveName);
         const pointA = view.spacePointToCanvas(Math.min(this.left, this.right), 0);
         const pointB = view.spacePointToCanvas(Math.max(this.right, this.left), 0);
-        if (curve instanceof Function) {
+        if (curve instanceof FunctionItem) {
             const bb1 = curve.getBounding(view);
             if (bb1.left === bb1.right || bb1.top === bb1.bottom) {
                 return empty;

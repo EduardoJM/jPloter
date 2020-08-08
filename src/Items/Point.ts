@@ -4,6 +4,7 @@ import { applyProps } from '../Utils/props';
 import { LineStyle, LineStyleOptions } from '../Style/LineStyle';
 import { FillStyle } from '../Style/FillStyle';
 import { FillStyleOptions } from '../Style/FillStyleOptions';
+import { SolidFill } from '../Style/SolidFill';
 
 /**
  * Options for point creation.
@@ -78,7 +79,7 @@ export class Point implements RenderItem {
         this.name = '';
         this.x = 0;
         this.y = 0;
-        this.fillStyle = new FillStyle();
+        this.fillStyle = new SolidFill();
         this.stroke = false;
         this.strokeStyle = new LineStyle();
         this.pointSize = 5;
@@ -86,7 +87,7 @@ export class Point implements RenderItem {
         applyProps(opts, this);
     }
     
-    render(view: View) {
+    render(view: View): void {
         if (this.pointSize <= 0) {
             return;
         }

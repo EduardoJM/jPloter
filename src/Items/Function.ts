@@ -79,7 +79,7 @@ export class Function implements RenderItem {
         applyProps(opts, this);
     }
 
-    render(view: View) {
+    render(view: View): void {
         if (this.lineStyle.lineWidth <= 0 || this.function === '') {
             return;
         }
@@ -183,9 +183,9 @@ export class Function implements RenderItem {
         return this.lastPointsBounding;
     }
 
-    updateFunction(func?: string) {
+    updateFunction(func?: string): void {
         if (func !== undefined) {
-            this.function = func
+            this.function = func;
         }
         this.lastViewTranslation = { x: Number.NaN, y: Number.NaN };
         this.lastViewZoom = { x: Number.NaN, y: Number.NaN };

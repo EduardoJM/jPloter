@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { LineStyle } from '../Style/LineStyle';
 import { Color } from '../Style/Color';
 import { PatternLine } from '../Style/PatternLine';
@@ -10,7 +12,7 @@ import { SolidFill } from '../Style/SolidFill';
  * @param props createOptions object.
  * @param applyTo the object to apply the props.
  */
-export function applyProps(props: any, applyTo: any) {
+export function applyProps(props: any, applyTo: any): void {
     if (!props || !applyTo) {
         return;
     }
@@ -37,5 +39,5 @@ export function createFillStyleFromOptions(opts: FillStyleOptions) {
     } else if (opts.type === 'solid') {
         return new SolidFill(opts);
     }
-    return new FillStyle();
+    return new SolidFill();
 }

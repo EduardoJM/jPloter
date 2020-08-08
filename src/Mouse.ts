@@ -79,35 +79,35 @@ export class Mouse {
     /**
      * disable the drag operations.
      */
-    disable() {
+    disable(): void {
         this.active = false;
     }
 
     /**
      * enable the drag operations.
      */
-    enable() {
+    enable(): void {
         this.active = true;
     }
 
     /**
      * enable the zoom operations.
      */
-    enableZoom() {
+    enableZoom(): void {
         this.canZoom = true;
     }
 
     /**
      * disable the zoom operations.
      */
-    disableZoom() {
+    disableZoom(): void {
         this.canZoom = false;
     }
 
     /**
      * remove events.
      */
-    remove() {
+    remove(): void {
         this.view.canvas.removeEventListener('mousedown', this.mouseDown);
         this.view.canvas.removeEventListener('wheel', this.wheel);
     }
@@ -116,7 +116,7 @@ export class Mouse {
      * document mouseUp event.
      * @param e mouseUp event data.
      */
-    mouseUp(e: MouseEvent) {
+    mouseUp(): void {
         this.dragging = false;
         document.removeEventListener('mousemove', this.mouseMove);
         document.removeEventListener('mouseup', this.mouseUp);
@@ -129,7 +129,7 @@ export class Mouse {
      * document mouseMove event.
      * @param e mouseMove event data.
      */
-    mouseMove(e: MouseEvent) {
+    mouseMove(e: MouseEvent): void {
         if (!this.dragging) {
             return;
         }
@@ -151,7 +151,7 @@ export class Mouse {
      * canvas mouseDown event.
      * @param e mouseDown event data.
      */
-    mouseDown(e: MouseEvent) {
+    mouseDown(e: MouseEvent): void {
         if (!this.active) {
             return;
         }
@@ -167,7 +167,7 @@ export class Mouse {
      * canvas wheel event.
      * @param e wheel event data.
      */
-    wheel(e: WheelEvent) {
+    wheel(e: WheelEvent): void {
         if (!this.canZoom) {
             return;
         }
@@ -217,7 +217,7 @@ export class Mouse {
     addEventListener(
         event: 'dragstop' | 'zoomchange',
         fn: () => void
-    ) {
+    ): void {
         if (event === 'dragstop') {
             this.onDragStopEventHandlers.push(fn);
         } else if (event === 'zoomchange') {
@@ -233,7 +233,7 @@ export class Mouse {
     removeEventListener(
         event: 'dragstop' | 'zoomchange',
         fn: () => void
-    ) {
+    ): void {
         if (event === 'dragstop') {
             const idx = this.onDragStopEventHandlers.indexOf(fn);
             this.onDragStopEventHandlers.splice(idx, 1);

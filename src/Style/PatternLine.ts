@@ -78,7 +78,7 @@ export class PatternLine extends FillStyle {
             context.fillStyle = this.pattern;
         }
         let canvas = this.patternCanvas;
-        if (!null) {
+        if (!canvas) {
             canvas = this.updatePattern();
         }
         if (!canvas) {

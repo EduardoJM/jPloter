@@ -111,7 +111,7 @@ export class Axis implements RenderItem {
         };
     }
 
-    renderThickText(view: View, text: string, x: number, y: number, isXaxis: boolean) {
+    renderThickText(view: View, text: string, x: number, y: number, isXaxis: boolean): void {
         const transform = view.context.getTransform();
         view.context.textAlign = 'center';
         view.context.fillStyle = isXaxis 
@@ -122,7 +122,7 @@ export class Axis implements RenderItem {
         view.context.setTransform(transform);
     }
 
-    renderX(view: View, middleX: number, middleY: number) {
+    renderX(view: View, middleX: number, middleY: number): void {
         const left = 0;
         const right = left + view.canvas.width;
         const localWidth = view.canvas.width / view.zoom.x;
@@ -154,7 +154,7 @@ export class Axis implements RenderItem {
             }
             // x thicks
             if (this.xAxisThick) {
-                let { min:xMin, max: xMax} = this.getMinMax(
+                const { min:xMin, max: xMax} = this.getMinMax(
                     view.translation.x,
                     view.translation.x + localWidth
                 );
@@ -194,7 +194,7 @@ export class Axis implements RenderItem {
         }
     }
 
-    renderY(view: View, middleX: number, middleY: number) {
+    renderY(view: View, middleX: number): void {
         const top = 0;
         const bottom = top + view.canvas.height;
         const localHeight = view.canvas.height / view.zoom.y;
@@ -225,7 +225,7 @@ export class Axis implements RenderItem {
             }
             // y thicks
             if (this.yAxisThick) {
-                let { min:yMin, max: yMax} = this.getMinMax(
+                const { min:yMin, max: yMax} = this.getMinMax(
                     view.translation.y,
                     view.translation.y + localHeight
                 );
@@ -257,10 +257,10 @@ export class Axis implements RenderItem {
         }
     }
 
-    render(view: View) {
+    render(view: View): void {
         const { x: middleX, y: middleY } = view.spacePointToCanvas(0, 0);
         this.renderX(view, middleX, middleY);
-        this.renderY(view, middleX, middleY);
+        this.renderY(view, middleX);
     }
 
     getBounding(view: View): RenderItemBounds {
@@ -333,4 +333,4 @@ export class Axis implements RenderItem {
             bottom: boundingBottom
         };
     }
-};
+}

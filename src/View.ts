@@ -38,7 +38,7 @@ export class View {
          * y coordinate of the View translation.
          */
         y: number;
-    }
+    };
 
     /**
      * the items in this View.
@@ -81,7 +81,7 @@ export class View {
     /**
      * render the view items.
      */
-    render() {
+    render(): void {
         this.context.resetTransform();
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
@@ -108,7 +108,10 @@ export class View {
      * @param x the x point coordinate.
      * @param y the y point coordinate.
      */
-    spacePointToCanvas(x: number, y: number) {
+    spacePointToCanvas(x: number, y: number): {
+        x: number;
+        y: number;
+    } {
         return {
             x: (x - this.translation.x) * this.zoom.x,
             y: -(y + this.translation.y) * this.zoom.y,
@@ -120,7 +123,10 @@ export class View {
      * @param x the x point coordinate.
      * @param y the y point coordinate.
      */
-    canvasPointToSpace(x: number, y: number) {
+    canvasPointToSpace(x: number, y: number): {
+        x: number;
+        y: number;
+    } {
         return {
             x: x / this.zoom.x - this.translation.x,
             y: y / this.zoom.y,
@@ -133,7 +139,7 @@ export class View {
      */
     getItemByName(name: string): RenderItem | null {
         const filtered = this.items.filter((item) => {
-            return (item.name === name)
+            return (item.name === name);
         });
         if (filtered.length <= 0) {
             return null;

@@ -5,7 +5,7 @@ import { RenderItemBounds } from '../Items/RenderItem';
  * @param a the bounding of the item A.
  * @param b the bounding of the item B.
  */
-export function overlapBoundings(a: RenderItemBounds, b: RenderItemBounds) {
+export function overlapBoundings(a: RenderItemBounds, b: RenderItemBounds): boolean {
     if (a.left >= b.right || b.left >= a.right) {
         return false;
     }

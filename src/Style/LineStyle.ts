@@ -52,13 +52,13 @@ export class LineStyle {
         applyProps(opts, this);
     }
 
-    getContextStyle() {
+    getContextStyle(): string {
         const { r, g, b } = this.color;
         this.opacity = Math.min(1, Math.max(0, this.opacity));
         return `rgba(${r}, ${g}, ${b}, ${this.opacity})`;
     }
 
-    applyTo(context: CanvasRenderingContext2D) {
+    applyTo(context: CanvasRenderingContext2D): void {
         context.strokeStyle = this.getContextStyle();
         context.lineWidth = this.lineWidth;
         context.lineCap = this.lineCap;
