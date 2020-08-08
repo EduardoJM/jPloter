@@ -14,19 +14,37 @@
 
 This is a (in development) dynamic math graph ploting library. This project, and package, contains, for now, some Rendering Items, like the **Axis**, **Function**, **Point** and the **AreaUnderCurve** with some **LineStyle's** and some **FillStyle's** utilities.
 
-## Install
+## 1 Usage
+
+### 1.1 Instaling from npm
 
 ```bash
 npm install jplot --save
 ```
 
-## Usage
+or
 
-TODO: write the usage in the future. For now, see the `example/index.ts`.
+```bash
+yarn add jplot
+```
 
-## Build
+TODO: write this section in the future. For now, see the `demo/*` html.
 
-### 1 - Clone the repository and install dependencies
+### 1.2 Including in the web page
+
+TODO: write this section in the future.
+
+## 2 Building From Source
+
+### 2.1 Clone the repository and install dependencies
+
+```bash
+git clone https://github.com/EduardoJM/jplot.git
+cd jplot
+yarn
+```
+
+or
 
 ```bash
 git clone https://github.com/EduardoJM/jplot.git
@@ -34,7 +52,13 @@ cd jplot
 npm install
 ```
 
-### 2 - Build the browser example
+### 2.2 Build the browser examples
+
+```bash
+yarn ex
+```
+
+or
 
 ```bash
 npm run ex
@@ -42,19 +66,39 @@ npm run ex
 
 And, now, open the `demo/index.html` and the demo is here.
 
-### 3 - Build the package version
+### 2.3 Build the package version
+
+```bash
+yarn build
+```
 
 ```bash
 npm run build
 ```
 
-## References
+## 3 Automatized tests
 
-### HTML5 Canvas
+This project contain some development automatized tests with `jest`. The tests is not complete for now and is not the better tests of the development world (because i'm not an expert in automatized tests).
+
+To run the tests, in the project folder run:
+
+```bash
+yarn test
+```
+
+or
+
+```bash
+npm run test
+```
+
+## 4 References
+
+### 4.1 HTML5 Canvas
 
 - [The HTML5 Canvas Handbook](http://bucephalus.org/text/CanvasHandbook/CanvasHandbook.html)
 - [CanvasRenderingContext2D - Web APIs | MDN](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D)
 
-### Colors
+### 4.2 Colors
 
 - [HTML Color Names](https://www.w3schools.com/colors/colors_names.asp)
