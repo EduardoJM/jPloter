@@ -46,9 +46,9 @@ export class Mouse {
      */
     dragging: boolean;
 
-    private onDragStopEventHandlers: (() => void)[];
-
-    private onZoomChangeEventHandler: (() => void)[];
+    onDragStopCallback?: () => void;
+    
+    onZoomChangeCallback?: () => void;
 
     /**
      * creates a new instance of Mouse utilities for View.
@@ -64,9 +64,6 @@ export class Mouse {
         this.startY = 0;
         this.dragging = false;
         this.view = canvasView;
-
-        this.onDragStopEventHandlers = [];
-        this.onZoomChangeEventHandler = [];
 
         this.mouseDown = this.mouseDown.bind(this);
         this.mouseMove = this.mouseMove.bind(this);
@@ -120,9 +117,9 @@ export class Mouse {
         this.dragging = false;
         document.removeEventListener('mousemove', this.mouseMove);
         document.removeEventListener('mouseup', this.mouseUp);
-        this.onDragStopEventHandlers.forEach((fn) => {
-            fn.call(this);
-        });
+        if (this.onDragStopCallback) {
+            this.onDragStopCallback.call(this);
+        }
     }
 
     /**
@@ -203,43 +200,9 @@ export class Mouse {
             x: zoomX,
             y: zoomY
         };
-        this.onZoomChangeEventHandler.forEach((fn) => {
-            fn.call(this);
-        });
+        if (this.onZoomChangeCallback) {
+            this.onZoomChangeCallback.call(this);
+        }
         this.view.render();
-    }
-
-    /**
-     * Add a new event listener to the Mouse.
-     * @param event the event name.
-     * @param fn the event function.
-     */
-    addEventListener(
-        event: 'dragstop' | 'zoomchange',
-        fn: () => void
-    ): void {
-        if (event === 'dragstop') {
-            this.onDragStopEventHandlers.push(fn);
-        } else if (event === 'zoomchange') {
-            this.onZoomChangeEventHandler.push(fn);
-        }
-    }
-
-    /**
-     * Remove a event listener to the Mouse.
-     * @param event the event name.
-     * @param fn the event function.
-     */
-    removeEventListener(
-        event: 'dragstop' | 'zoomchange',
-        fn: () => void
-    ): void {
-        if (event === 'dragstop') {
-            const idx = this.onDragStopEventHandlers.indexOf(fn);
-            this.onDragStopEventHandlers.splice(idx, 1);
-        } else if (event === 'zoomchange') {
-            const idx = this.onZoomChangeEventHandler.indexOf(fn);
-            this.onZoomChangeEventHandler.splice(idx, 1);
-        }
     }
 }
