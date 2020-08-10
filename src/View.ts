@@ -57,6 +57,8 @@ export class View {
 
     onRenderBeginCallback?: (context: CanvasRenderingContext2D) => void;
 
+    private onRenderBeginEventHandlers: ((context: CanvasRenderingContext2D) => void)[];
+
     /**
      * creates a new instance of View.
      * @param canvas the HTMLCanvasElement to render.
@@ -78,6 +80,8 @@ export class View {
         };
         this.items = [];
         this.renderList = [];
+
+        this.onRenderBeginEventHandlers = [];
     }
 
     /**
@@ -86,10 +90,12 @@ export class View {
     render(): void {
         this.context.resetTransform();
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.onRenderBeginEventHandlers.forEach((fn) => {
+            fn.call(this, this.context);
+        });
         if (this.onRenderBeginCallback) {
             this.onRenderBeginCallback.call(this, this.context);
         }
-
         const screenBounds = { left: 0, top: 0, right: this.canvas.width, bottom: this.canvas.height };
         // indicate to items if bounding calculation is needed
         this.items.forEach((item) => {
@@ -150,5 +156,24 @@ export class View {
             return null;
         }
         return filtered[0];
+    }
+
+    addEventListener(
+        event: 'renderbegin',
+        fn: (context: CanvasRenderingContext2D) => void
+    ): void {
+        if (event === 'renderbegin') {
+            this.onRenderBeginEventHandlers.push(fn);
+        }
+    }
+
+    removeEventListener(
+        event: 'renderbegin',
+        fn: (context: CanvasRenderingContext2D) => void
+    ): void {
+        if (event === 'renderbegin') {
+            const idx = this.onRenderBeginEventHandlers.indexOf(fn);
+            this.onRenderBeginEventHandlers.splice(idx, 1);
+        }
     }
 }
