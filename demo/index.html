@@ -13,11 +13,16 @@
         body { background: #CCC; color: #222; height: 100vh; }
         .container { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         #plot { background: #FFF; }
+
+        #func_container { margin-top: 10px; width: 500px; display: flex; flex-direction: column; align-items: stretch; }
     </style>
 </head>
 <body>
     <div class="container">
         <canvas id="plot" width="500" height="500"></canvas>
+        <div id="func_container">
+            <input type="text" id="func" />
+        </div>
     </div>
     
     <script src="https://unpkg.com/mathjs@7.1.0/dist/math.min.js"></script>
@@ -86,6 +91,11 @@
             view.addEventListener('renderbegin', function(ctx){
                 ctx.fillStyle = 'white';
                 ctx.fillRect(0, 0, 500, 500);
+            });
+
+            var funcInput = document.getElementById('func');
+            funcInput.addEventListener('change', function(e) {
+                func.function = e.target.value;
             });
 
             view.render();

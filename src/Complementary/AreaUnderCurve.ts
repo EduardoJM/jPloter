@@ -118,16 +118,10 @@ export class AreaUnderCurve implements RenderItem {
 
     getBounding(view: View): RenderItemBounds {
         const empty = { left: 0, right: 0, top: 0, bottom: 0 };
-        if (!view.evaluate) {
-            return empty;
-        }
-        if (this.curveName === '') {
-            return empty;
-        }
-        if (this.left === this.right) {
-            return empty;
-        }
-        if (!this.fill && !this.stroke) {
+        if (!view.evaluate
+            || this.curveName === ''
+            || (this.left === this.right)
+            || (!this.fill && !this.stroke)) {
             return empty;
         }
         const curve = view.getItemByName(this.curveName);
@@ -154,7 +148,13 @@ export class AreaUnderCurve implements RenderItem {
             let minY = 0;
             let maxY = 0;
             for (let i = 0; i <= resolution; i += 1) {
-                const pt = view.spacePointToCanvas(x, view.evaluate(curve.function, x));
+                let y = 0;
+                try {
+                    y = view.evaluate(curve.function, x);
+                } catch (e) {
+                    continue;
+                }
+                const pt = view.spacePointToCanvas(x, y);
                 minY = Math.min(pt.y, minY);
                 maxY = Math.max(pt.y, maxY);
                 this.polygon.push(pt);
