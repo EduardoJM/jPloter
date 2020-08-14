@@ -1,4 +1,3 @@
-// import { evaluate } from 'mathjs';
 import { View } from '../View';
 import { RenderItem, RenderItemCreateOptions, RenderItemBounds } from '../Items/RenderItem';
 import { FunctionItem } from '../Items/FunctionItem';

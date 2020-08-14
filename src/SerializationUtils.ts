@@ -37,7 +37,6 @@ export class SerializationUtils {
             {
                 id: 'function',
                 deserialize: (data) => FunctionItem.deserialize(data as FunctionItemCreateOptions),
-                // eslint-disable-next-line @typescript-eslint/ban-types
                 serialize: (item) => FunctionItem.serialize(item as FunctionItem)
             },
             {

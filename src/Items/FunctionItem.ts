@@ -1,4 +1,3 @@
-// import { evaluate } from 'mathjs';
 import { RenderItem, RenderItemCreateOptions, RenderItemBounds } from './RenderItem';
 import { View } from '../View';
 import { applyProps } from '../Utils/props';
@@ -229,7 +228,6 @@ export class FunctionItem implements RenderItem {
         });
     }
 
-    // eslint-disable-next-line @typescript-eslint/ban-types
     static serialize(item: FunctionItem): FunctionItemCreateOptions {
         return {
             name: item.name,
