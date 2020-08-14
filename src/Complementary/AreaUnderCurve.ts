@@ -1,7 +1,7 @@
 // import { evaluate } from 'mathjs';
 import { View } from '../View';
 import { RenderItem, RenderItemCreateOptions, RenderItemBounds } from '../Items/RenderItem';
-import { Function as FunctionItem } from '../Items/Function';
+import { FunctionItem } from '../Items/FunctionItem';
 import { overlapBoundings } from '../Utils/bounding';
 import { applyProps } from '../Utils/props';
 import { LineStyleOptions, LineStyle } from '../Style/LineStyle';

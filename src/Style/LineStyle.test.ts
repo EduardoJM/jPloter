@@ -1,7 +1,5 @@
 import { LineStyle } from './LineStyle';
 
-// TODO: add a test to apply context?
-
 test('constructor style creator must be correct', () => {
     const ls = new LineStyle({
         color: '#FFF',

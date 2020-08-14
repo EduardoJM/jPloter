@@ -1,7 +1,5 @@
 import { SolidFill } from './SolidFill';
 
-// TODO: add a test to apply context?
-
 test('constructor must be correct', () => {
     const op = Math.random();
     const sf = new SolidFill({

@@ -4,7 +4,7 @@ import { View } from '../View';
 import { applyProps } from '../Utils/props';
 import { LineStyle, LineStyleOptions } from '../Style/LineStyle';
 
-export interface FunctionCreateOptions extends RenderItemCreateOptions {
+export interface FunctionItemCreateOptions extends RenderItemCreateOptions {
     /**
      * Graph function resolution (number of points to draw).
      */
@@ -33,7 +33,7 @@ export interface FunctionCreateOptions extends RenderItemCreateOptions {
     domainEnd?: number;
 }
 
-export class Function implements RenderItem {
+export class FunctionItem implements RenderItem {
     /**
      * name of the item.
      */
@@ -80,7 +80,7 @@ export class Function implements RenderItem {
     private lastViewTranslation: { x: number; y: number; };
     private lastViewZoom: { x: number; y: number; };
 
-    constructor(opts?: FunctionCreateOptions) {
+    constructor(opts?: FunctionItemCreateOptions) {
         this.name = '';
         this.resolution = 200;
         this.lineStyle = new LineStyle();
@@ -221,8 +221,8 @@ export class Function implements RenderItem {
         return 'function';
     }
 
-    static deserialize(data: FunctionCreateOptions): RenderItem {
-        return new Function({
+    static deserialize(data: FunctionItemCreateOptions): RenderItem {
+        return new FunctionItem({
             ...data,
             domainStart: data.domainStart === null ? undefined : data.domainStart,
             domainEnd: data.domainEnd === null ? undefined : data.domainEnd,
@@ -230,7 +230,7 @@ export class Function implements RenderItem {
     }
 
     // eslint-disable-next-line @typescript-eslint/ban-types
-    static serialize(item: Function): FunctionCreateOptions {
+    static serialize(item: FunctionItem): FunctionItemCreateOptions {
         return {
             name: item.name,
             resolution: item.resolution,

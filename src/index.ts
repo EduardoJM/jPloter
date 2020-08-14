@@ -11,7 +11,7 @@ export * from './Style/SolidFill';
 // Items
 export * from './Items/RenderItem';
 export * from './Items/Point';
-export * from './Items/Function';
+export * from './Items/FunctionItem';
 export * from './Items/Axis';
 // Complementary Items
 export * from './Complementary/AreaUnderCurve';
@@ -21,7 +21,7 @@ import { Mouse } from './Mouse';
 import { SerializationUtils } from './SerializationUtils';
 // Items
 import { Point } from './Items/Point';
-import { Function } from './Items/Function';
+import { FunctionItem } from './Items/FunctionItem';
 import { Axis } from './Items/Axis';
 // Complementary Items
 import { AreaUnderCurve } from './Complementary/AreaUnderCurve';
@@ -47,7 +47,7 @@ export default {
     // Items
     Point,
     Axis,
-    Function,
+    FunctionItem,
     // Complementary Items
     AreaUnderCurve
 };

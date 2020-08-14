@@ -1,7 +1,7 @@
 import { RenderItem } from './Items/RenderItem';
 import { Point, PointCreateOptions } from './Items/Point';
 import { Axis, AxisCreateOptions } from './Items/Axis';
-import { Function, FunctionCreateOptions } from './Items/Function';
+import { FunctionItem, FunctionItemCreateOptions } from './Items/FunctionItem';
 import { AreaUnderCurve, AreaUnderCurveCreateOptions } from './Complementary/AreaUnderCurve';
 
 export interface ItemSerialization {
@@ -36,9 +36,9 @@ export class SerializationUtils {
             },
             {
                 id: 'function',
-                deserialize: (data) => Function.deserialize(data as FunctionCreateOptions),
+                deserialize: (data) => FunctionItem.deserialize(data as FunctionItemCreateOptions),
                 // eslint-disable-next-line @typescript-eslint/ban-types
-                serialize: (item) => Function.serialize(item as Function)
+                serialize: (item) => FunctionItem.serialize(item as FunctionItem)
             },
             {
                 id: 'areaUnderCurve',

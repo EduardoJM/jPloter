@@ -1,7 +1,5 @@
 import { PatternLine } from './PatternLine';
 
-// TODO: add a test to apply context?
-
 test('constructor must be correct', () => {
     const pl = new PatternLine({
         baseColor: 'red',
