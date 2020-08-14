@@ -72,8 +72,12 @@ export class Mouse {
         this.mouseDown = this.mouseDown.bind(this);
         this.mouseMove = this.mouseMove.bind(this);
         this.mouseUp = this.mouseUp.bind(this);
+        this.touchStart = this.touchStart.bind(this);
+        this.touchMove = this.touchMove.bind(this);
+        this.touchEnd = this.touchEnd.bind(this);
         this.wheel = this.wheel.bind(this);
         this.view.canvas.addEventListener('mousedown', this.mouseDown);
+        this.view.canvas.addEventListener('touchstart', this.touchStart);
         this.view.canvas.addEventListener('wheel', this.wheel);
 
         this.onDragStopEventHandlers = [];
@@ -168,6 +172,48 @@ export class Mouse {
         this.dragging = true;
         document.addEventListener('mousemove', this.mouseMove);
         document.addEventListener('mouseup', this.mouseUp);
+    }
+
+    touchEnd(): void {
+        this.dragging = false;
+        document.removeEventListener('touchmove', this.touchMove);
+        document.removeEventListener('touchend', this.touchEnd);
+        this.onDragStopEventHandlers.forEach((fn) => {
+            fn.call(this);
+        });
+        if (this.onDragStopCallback) {
+            this.onDragStopCallback.call(this);
+        }
+    }
+
+    touchMove(e: TouchEvent): void {
+        if (!this.dragging) {
+            return;
+        }
+        const rc = this.view.canvas.getBoundingClientRect();
+        const px = e.changedTouches[0].pageX - rc.left;
+        const py = e.changedTouches[0].pageY - rc.top;
+        const dx = px - this.startX;
+        const dy = py - this.startY;
+        this.startX = px;
+        this.startY = py;
+        this.view.translation = {
+            x: this.view.translation.x - dx / this.view.zoom.x,
+            y: this.view.translation.y - dy / this.view.zoom.y,
+        };
+        this.view.render();
+    }
+
+    touchStart(e: TouchEvent): void {
+        if (!this.active) {
+            return;
+        }
+        const rc = this.view.canvas.getBoundingClientRect();
+        this.startX = e.changedTouches[0].pageX - rc.left;
+        this.startY = e.changedTouches[0].pageY - rc.top;
+        this.dragging = true;
+        document.addEventListener('touchmove', this.touchMove);
+        document.addEventListener('touchend', this.touchEnd);
     }
 
     /**
