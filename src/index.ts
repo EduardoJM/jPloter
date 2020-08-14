@@ -1,5 +1,6 @@
 export * from './View';
 export * from './Mouse';
+export * from './SerializationUtils';
 // Styles
 export * from './Style/Color';
 export * from './Style/LineStyle';
@@ -17,6 +18,8 @@ export * from './Complementary/AreaUnderCurve';
 
 import { View } from './View';
 import { Mouse } from './Mouse';
+import { SerializationUtils } from './SerializationUtils';
+// Items
 import { Point } from './Items/Point';
 import { Function } from './Items/Function';
 import { Axis } from './Items/Axis';
@@ -32,6 +35,7 @@ import { SolidFill } from './Style/SolidFill';
 export default {
     View,
     Mouse,
+    SerializationUtils,
     // Styles
     Styling: {
         Color,

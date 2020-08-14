@@ -216,4 +216,29 @@ export class Function implements RenderItem {
         this.lastViewTranslation = { x: Number.NaN, y: Number.NaN };
         this.lastViewZoom = { x: Number.NaN, y: Number.NaN };
     }
+
+    getSerializationId(): string {
+        return 'function';
+    }
+
+    static deserialize(data: FunctionCreateOptions): RenderItem {
+        return new Function({
+            ...data,
+            domainStart: data.domainStart === null ? undefined : data.domainStart,
+            domainEnd: data.domainEnd === null ? undefined : data.domainEnd,
+        });
+    }
+
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    static serialize(item: Function): FunctionCreateOptions {
+        return {
+            name: item.name,
+            resolution: item.resolution,
+            lineStyle: item.lineStyle.serialize(),
+            function: item.function,
+            breakDistance: item.breakDistance,
+            domainStart: item.domainStart,
+            domainEnd: item.domainEnd,
+        };
+    }
 }

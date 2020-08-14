@@ -46,4 +46,6 @@ export interface RenderItem {
      * calcuate the bounding box of the item.
      */
     getBounding: (view: View) => RenderItemBounds;
+
+    getSerializationId: () => string;
 }

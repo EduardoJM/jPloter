@@ -32,6 +32,7 @@
             const canvas = document.getElementById('plot');
             const view = new jPlot.View(canvas);
 
+            /*
             view.items.push(new jPlot.Point({
                 x: 1,
                 y: 1,
@@ -66,15 +67,26 @@
                 left: -1.5,
                 right: 1,
             }));
+            view.items.push(func);
+            view.items.push(new jPlot.Axis());
+            console.log(jPlot.SerializationUtils.serializeItemsCollection(view.items));
+            */
+
+
+
+            var items = jPlot.SerializationUtils.deserializeItemsCollection('[{"id":"point","data":{"name":"","x":1,"y":1,"fillStyle":{"type":"solid","color":"rgb(147, 112, 219)","opacity":1},"stroke":false,"strokeStyle":{"color":"rgb(0, 0, 0)","opacity":1,"type":"solid","lineWidth":1,"lineCap":"butt","lineJoin":"miter","miterLimit":10,"dashSize":10,"dashDistance":10},"pointSize":4}},{"id":"areaUnderCurve","data":{"name":"","curveName":"f","left":-1.5,"right":1,"fill":true,"fillStyle":{"type":"patternLine","lineStyle":{"color":"rgb(0, 0, 0)","opacity":1,"type":"solid","lineWidth":2,"lineCap":"butt","lineJoin":"miter","miterLimit":10,"dashSize":10,"dashDistance":10},"baseColor":"rgb(255, 255, 255)","patternSize":8,"opacity":0.4},"stroke":false,"strokeStyle":{"color":"rgb(0, 0, 0)","opacity":1,"type":"solid","lineWidth":1,"lineCap":"butt","lineJoin":"miter","miterLimit":10,"dashSize":10,"dashDistance":10}}},{"id":"function","data":{"name":"f","resolution":200,"lineStyle":{"color":"rgb(147, 112, 219)","opacity":1,"type":"solid","lineWidth":2,"lineCap":"butt","lineJoin":"miter","miterLimit":10,"dashSize":10,"dashDistance":10},"function":"x^4*cos(x)","breakDistance":100,"domainStart":null,"domainEnd":null}},{"id":"axis","data":{"name":"","xAxis":true,"xAxisStyle":{"color":"rgb(0, 0, 0)","opacity":1,"type":"solid","lineWidth":1,"lineCap":"butt","lineJoin":"miter","miterLimit":10,"dashSize":10,"dashDistance":10},"yAxis":true,"yAxisStyle":{"color":"rgb(0, 0, 0)","opacity":1,"type":"solid","lineWidth":1,"lineCap":"butt","lineJoin":"miter","miterLimit":10,"dashSize":10,"dashDistance":10},"arrows":true,"arrowSize":10,"xAxisThick":true,"xAxisThickSize":10,"xAxisThickStyle":{"color":"rgb(0, 0, 0)","opacity":1,"type":"solid","lineWidth":1,"lineCap":"butt","lineJoin":"miter","miterLimit":10,"dashSize":10,"dashDistance":10},"xAxisThickPosition":"middle","xAxisThickNumbers":true,"xAxisThickFont":"Arial 16px","yAxisThick":true,"yAxisThickSize":10,"yAxisThickStyle":{"color":"rgb(0, 0, 0)","opacity":1,"type":"solid","lineWidth":1,"lineCap":"butt","lineJoin":"miter","miterLimit":10,"dashSize":10,"dashDistance":10},"yAxisThickPosition":"middle","yAxisThickNumbers":true,"yAxisThickFont":"Arial 16px"}}]');
+            for (let i = 0; i < items.length; i++) {
+                view.items.push(items[i]);
+            }
+            console.log(items);
+
+            
+
             view.evaluate = function (expr, x) {
                 return math.evaluate(expr, {
                     x: x
                 });
             };
-            view.items.push(func);
-
-            view.items.push(new jPlot.Axis());
-
             view.zoom = { x: 100, y: 100 };
             view.translation = { x: -2.5, y: -2.5 };
             
@@ -93,10 +105,12 @@
                 ctx.fillRect(0, 0, 500, 500);
             });
 
+            /*
             var funcInput = document.getElementById('func');
             funcInput.addEventListener('change', function(e) {
                 func.function = e.target.value;
             });
+            */
 
             view.render();
         });

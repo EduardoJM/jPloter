@@ -32,6 +32,10 @@ export class Color {
         this.b = Math.min(255, Math.max(0, Math.round(this.b)));
     }
 
+    toString(): string {
+        return `rgb(${this.r}, ${this.g}, ${this.b})`;
+    }
+
     /**
      * Create a new Color instance from red, green and blue components.
      * @param r red component.
@@ -95,7 +99,6 @@ export class Color {
             return new Color();
         }
         if (Object.prototype.hasOwnProperty.call(ColorNames, trimed.toLowerCase())) {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const hexStr = (ColorNames as any)[trimed.toLowerCase()] as string;
             return Color.fromHex(hexStr);
         }

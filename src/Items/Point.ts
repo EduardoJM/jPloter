@@ -122,4 +122,24 @@ export class Point implements RenderItem {
             bottom: py + this.pointSize
         };
     }
+
+    getSerializationId(): string {
+        return 'point';
+    }
+
+    static deserialize(data: PointCreateOptions): RenderItem {
+        return new Point(data);
+    }
+
+    static serialize(item: Point): PointCreateOptions {
+        return {
+            name: item.name,
+            x: item.x,
+            y: item.y,
+            fillStyle: item.fillStyle.serialize(),
+            stroke: item.stroke,
+            strokeStyle: item.strokeStyle.serialize(),
+            pointSize: item.pointSize,
+        };
+    }
 }

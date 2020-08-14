@@ -333,4 +333,36 @@ export class Axis implements RenderItem {
             bottom: boundingBottom
         };
     }
+
+    getSerializationId(): string {
+        return 'axis';
+    }
+
+    static deserialize(data: AxisCreateOptions): RenderItem {
+        return new Axis(data);
+    }
+
+    static serialize(item: Axis): AxisCreateOptions {
+        return {
+            name: item.name,
+            xAxis: item.xAxis,
+            xAxisStyle: item.xAxisStyle.serialize(),
+            yAxis: item.yAxis,
+            yAxisStyle: item.yAxisStyle.serialize(),
+            arrows: item.arrows,
+            arrowSize: item.arrowSize,
+            xAxisThick: item.xAxisThick,
+            xAxisThickSize: item.xAxisThickSize,
+            xAxisThickStyle: item.xAxisThickStyle.serialize(),
+            xAxisThickPosition: item.xAxisThickPosition,
+            xAxisThickNumbers: item.xAxisThickNumbers,
+            xAxisThickFont: item.xAxisThickFont,
+            yAxisThick: item.yAxisThick,
+            yAxisThickSize: item.yAxisThickSize,
+            yAxisThickStyle: item.yAxisThickStyle.serialize(),
+            yAxisThickPosition: item.yAxisThickPosition,
+            yAxisThickNumbers: item.yAxisThickNumbers,
+            yAxisThickFont: item.yAxisThickFont,
+        };
+    }
 }

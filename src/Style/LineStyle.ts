@@ -70,4 +70,18 @@ export class LineStyle {
             context.setLineDash([]);
         }
     }
+
+    serialize(): LineStyleOptions {
+        return {
+            color: this.color.toString(),
+            opacity: this.opacity,
+            type: this.type,
+            lineWidth: this.lineWidth,
+            lineCap: this.lineCap,
+            lineJoin: this.lineJoin,
+            miterLimit: this.miterLimit,
+            dashSize: this.dashSize,
+            dashDistance: this.dashDistance,
+        };
+    }
 }

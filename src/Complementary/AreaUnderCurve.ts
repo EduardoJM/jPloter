@@ -181,4 +181,25 @@ export class AreaUnderCurve implements RenderItem {
         // other items is not supported for now
         return empty;
     }
+
+    getSerializationId(): string {
+        return 'areaUnderCurve';
+    }
+
+    static deserialize(data: AreaUnderCurveCreateOptions): RenderItem {
+        return new AreaUnderCurve(data);
+    }
+
+    static serialize(item: AreaUnderCurve): AreaUnderCurveCreateOptions {
+        return {
+            name: item.name,
+            curveName: item.curveName,
+            left: item.left,
+            right: item.right,
+            fill: item.fill,
+            fillStyle: item.fillStyle.serialize(),
+            stroke: item.stroke,
+            strokeStyle: item.strokeStyle.serialize(),
+        };
+    }
 }

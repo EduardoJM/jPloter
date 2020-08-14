@@ -2,6 +2,7 @@ import { FillStyle } from './FillStyle';
 import { LineStyle, LineStyleOptions } from './LineStyle';
 import { Color } from './Color';
 import { applyProps } from '../Utils/props';
+import { FillStyleOptions } from './FillStyleOptions';
 
 export interface PatternLineOptions {
     lineStyle?: LineStyleOptions;
@@ -88,5 +89,15 @@ export class PatternLine extends FillStyle {
         if (this.pattern) {
             context.fillStyle = this.pattern;
         }
+    }
+
+    serialize(): FillStyleOptions {
+        return {
+            type: 'patternLine',
+            lineStyle: this.lineStyle.serialize(),
+            baseColor: this.baseColor.toString(),
+            patternSize: this.patternSize,
+            opacity: this.opacity,
+        };
     }
 }
