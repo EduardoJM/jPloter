@@ -28,9 +28,9 @@ export class LineSegment implements RenderItem {
 
     strokeStyle: LineStyle;
 
-    private firstPoint: Point | null;
+    firstPoint: Point | null;
 
-    private secondPoint: Point | null;
+    secondPoint: Point | null;
 
     constructor(opts?: LineSegmentCreateOptions) {
         this.name = '';
@@ -47,11 +47,6 @@ export class LineSegment implements RenderItem {
 
     getBounding(view: View): RenderItemBounds {
         const empty = { left: 0, top: 0, right: 0, bottom: 0 };
-        if (!this.stroke) {
-            this.firstPoint = null;
-            this.secondPoint = null;
-            return empty;
-        }
         const pointA = view.getItemByName(this.firstPointName);
         const pointB = view.getItemByName(this.secondPointName);
         if (!pointA || !pointB || !(pointA instanceof Point) || !(pointB instanceof Point)) {

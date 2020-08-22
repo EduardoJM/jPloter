@@ -38,22 +38,31 @@
                 });
             };
 
-            
-            view.items.push(new jPlot.Axis());
 
+            view.items.push(new jPlot.AreaUnderCurve({
+                curveName: 'line',
+                left: 2,
+                right: 4,
+                fillStyle: {
+                    type: 'solid',
+                    color: 'skyblue'
+                }
+            }));
+            
             view.items.push(new jPlot.Point({
                 name: 'A',
-                x: -1,
-                y: -1
+                x: 1,
+                y: 1
             }));
 
             view.items.push(new jPlot.Point({
                 name: 'B',
-                x: 2,
-                y: 1
+                x: 5,
+                y: 3
             }));
 
             view.items.push(new jPlot.LineSegment({
+                name: 'line',
                 firstPointName: 'A',
                 secondPointName: 'B',
                 strokeStyle: {
@@ -61,6 +70,8 @@
                     lineWidth: 2
                 }
             }));
+
+            view.items.push(new jPlot.Axis());
 
             view.zoom = { x: 100, y: 100 };
             view.translation = { x: -2.5, y: -2.5 };
@@ -75,6 +86,7 @@
             });
 
             view.render();
+            
             setInterval(function() {
                 console.log(view.renderList);
             }, 1000);

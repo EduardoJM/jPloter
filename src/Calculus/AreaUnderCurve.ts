@@ -1,6 +1,7 @@
 import { View } from '../View';
 import { RenderItem, RenderItemCreateOptions, RenderItemBounds } from '../Base/RenderItem';
 import { FunctionItem } from './FunctionItem';
+import { LineSegment } from '../Geometry/LineSegment';
 import { overlapBoundings } from '../Utils/bounding';
 import { applyProps } from '../Utils/props';
 import { LineStyleOptions, LineStyle } from '../Style/LineStyle';
@@ -175,6 +176,53 @@ export class AreaUnderCurve implements RenderItem {
                 right: bb2.right,
                 top: minY,
                 bottom: maxY
+            };
+        } else if (curve instanceof LineSegment) {
+            curve.getBounding(view);
+            if (!curve.firstPoint || !curve.secondPoint) {
+                console.log('not points');
+                return empty;
+            }
+            const areaLeft = Math.min(this.left, this.right);
+            const areaRight = Math.max(this.right, this.left);
+            const lineLeft = Math.min(curve.firstPoint.x, curve.secondPoint.x);
+            const lineRight = Math.max(curve.firstPoint.x, curve.secondPoint.x);
+            let left = areaLeft;
+            if (areaLeft < lineLeft) {
+                left = lineLeft;
+            }
+            let right = areaRight;
+            if (areaRight > lineRight) {
+                right = lineRight;
+            }
+            if (lineRight === lineLeft) {
+                // not draw area under a vertical line.
+                return empty;
+            }
+            const yMax = Math.max(curve.firstPoint.y, curve.secondPoint.y);
+            const yMin = Math.min(curve.firstPoint.y, curve.secondPoint.y);
+            const a = (yMax - yMin) / (lineRight - lineLeft);
+            const b = curve.firstPoint.y - a * curve.firstPoint.x;
+            // linear function
+            // y = ax + b
+            // a * curve.firstPoint.x + b = curve.firstPoint.y
+            // y_1 = left * a + b
+            // y_2 = right * a + b
+            const leftY = left * a + b;
+            const rightY = right * a + b;
+            const pt1 = view.spacePointToCanvas(left, leftY);
+            const pt2 = view.spacePointToCanvas(right, rightY);
+            this.polygon = [
+                { x: pt1.x, y: pointA.y },
+                pt1,
+                pt2,
+                { x: pt2.x, y: pointA.y },
+            ];
+            return {
+                left: pt1.x,
+                right: pt2.x,
+                top: Math.min(pointA.y, pt1.y, pt2.y),
+                bottom: Math.max(pointA.y, pt1.y, pt2.y)
             };
         }
         // other items is not supported for now
