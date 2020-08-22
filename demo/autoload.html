@@ -6,28 +6,10 @@
     <title>Document</title>
 </head>
 <body>
-    
-
     <canvas width="512" height="512" data-jplot="true" data-content='{"zoom":{"x":100,"y":100},"translation":{"x":-2.5,"y":-2.5},"items":[{"id":"point","data":{"name":"","x":1,"y":1,"fillStyle":{"type":"solid","color":"rgb(147, 112, 219)","opacity":1},"stroke":false,"strokeStyle":{"color":"rgb(0, 0, 0)","opacity":1,"type":"solid","lineWidth":1,"lineCap":"butt","lineJoin":"miter","miterLimit":10,"dashSize":10,"dashDistance":10},"pointSize":4}},{"id":"areaUnderCurve","data":{"name":"","curveName":"f","left":-1.5,"right":1,"fill":true,"fillStyle":{"type":"patternLine","lineStyle":{"color":"rgb(0, 0, 0)","opacity":1,"type":"solid","lineWidth":2,"lineCap":"butt","lineJoin":"miter","miterLimit":10,"dashSize":10,"dashDistance":10},"baseColor":"rgb(255, 255, 255)","patternSize":8,"opacity":0.4},"stroke":false,"strokeStyle":{"color":"rgb(0, 0, 0)","opacity":1,"type":"solid","lineWidth":1,"lineCap":"butt","lineJoin":"miter","miterLimit":10,"dashSize":10,"dashDistance":10}}},{"id":"function","data":{"name":"f","resolution":200,"lineStyle":{"color":"rgb(147, 112, 219)","opacity":1,"type":"solid","lineWidth":2,"lineCap":"butt","lineJoin":"miter","miterLimit":10,"dashSize":10,"dashDistance":10},"function":"x^3*cos(x)","breakDistance":100}},{"id":"axis","data":{"name":"","xAxis":true,"xAxisStyle":{"color":"rgb(0, 0, 0)","opacity":1,"type":"solid","lineWidth":1,"lineCap":"butt","lineJoin":"miter","miterLimit":10,"dashSize":10,"dashDistance":10},"yAxis":true,"yAxisStyle":{"color":"rgb(0, 0, 0)","opacity":1,"type":"solid","lineWidth":1,"lineCap":"butt","lineJoin":"miter","miterLimit":10,"dashSize":10,"dashDistance":10},"arrows":true,"arrowSize":10,"xAxisThick":true,"xAxisThickSize":10,"xAxisThickStyle":{"color":"rgb(0, 0, 0)","opacity":1,"type":"solid","lineWidth":1,"lineCap":"butt","lineJoin":"miter","miterLimit":10,"dashSize":10,"dashDistance":10},"xAxisThickPosition":"middle","xAxisThickNumbers":true,"xAxisThickFont":"Arial 16px","yAxisThick":true,"yAxisThickSize":10,"yAxisThickStyle":{"color":"rgb(0, 0, 0)","opacity":1,"type":"solid","lineWidth":1,"lineCap":"butt","lineJoin":"miter","miterLimit":10,"dashSize":10,"dashDistance":10},"yAxisThickPosition":"middle","yAxisThickNumbers":true,"yAxisThickFont":"Arial 16px"}}]}'></canvas>
     
     <script src="https://unpkg.com/mathjs@7.1.0/dist/math.min.js"></script>
     <script src="dist/bundle.js"></script>
-    <script>
-        function evaluate(expr, x) {
-            return math.evaluate(expr, {
-                x: x
-            });
-        }
-
-        const items = document.querySelectorAll('canvas[data-jplot=true]');
-        for (let i = 0; i < items.length; i++) {
-            const content = items[i].dataset.content;
-            if (content !== null && content !== undefined) {
-                const view = jPlot.View.deserialize(content, items[i]);
-                view.evaluate = evaluate;
-                view.render();
-            }
-        }
-    </script>
+    <script src="../utils/autoload.js"></script>
 </body>
 </html>
