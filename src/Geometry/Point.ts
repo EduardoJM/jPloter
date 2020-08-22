@@ -1,4 +1,4 @@
-import { RenderItem, RenderItemCreateOptions, RenderItemBounds } from './RenderItem';
+import { RenderItem, RenderItemCreateOptions, RenderItemBounds } from '../Base/RenderItem';
 import { View } from '../View';
 import { applyProps } from '../Utils/props';
 import { LineStyle, LineStyleOptions } from '../Style/LineStyle';

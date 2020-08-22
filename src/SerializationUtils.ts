@@ -1,8 +1,8 @@
-import { RenderItem } from './Items/RenderItem';
-import { Point, PointCreateOptions } from './Items/Point';
-import { Axis, AxisCreateOptions } from './Items/Axis';
-import { FunctionItem, FunctionItemCreateOptions } from './Items/FunctionItem';
-import { AreaUnderCurve, AreaUnderCurveCreateOptions } from './Complementary/AreaUnderCurve';
+import { RenderItem } from './Base/RenderItem';
+import { Point, PointCreateOptions } from './Geometry/Point';
+import { Axis, AxisCreateOptions } from './Base/Axis';
+import { FunctionItem, FunctionItemCreateOptions } from './Calculus/FunctionItem';
+import { AreaUnderCurve, AreaUnderCurveCreateOptions } from './Calculus/AreaUnderCurve';
 
 export interface ItemSerialization {
     id: string;

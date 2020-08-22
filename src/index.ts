@@ -8,23 +8,25 @@ export * from './Style/FillStyle';
 export * from './Style/FillStyleOptions';
 export * from './Style/PatternLine';
 export * from './Style/SolidFill';
-// Items
-export * from './Items/RenderItem';
-export * from './Items/Point';
-export * from './Items/FunctionItem';
-export * from './Items/Axis';
-// Complementary Items
-export * from './Complementary/AreaUnderCurve';
+// Base Items
+export * from './Base/RenderItem';
+export * from './Base/Axis';
+// Calculus
+export * from './Calculus/AreaUnderCurve';
+export * from './Calculus/FunctionItem';
+// Geometry
+export * from './Geometry/Point';
 
 import { View } from './View';
 import { Mouse } from './Mouse';
 import { SerializationUtils } from './SerializationUtils';
-// Items
-import { Point } from './Items/Point';
-import { FunctionItem } from './Items/FunctionItem';
-import { Axis } from './Items/Axis';
-// Complementary Items
-import { AreaUnderCurve } from './Complementary/AreaUnderCurve';
+// Base Items
+import { Axis } from './Base/Axis';
+// Calculus
+import { FunctionItem } from './Calculus/FunctionItem';
+import { AreaUnderCurve } from './Calculus/AreaUnderCurve';
+// Geometry
+import { Point } from './Geometry/Point';
 // Styles
 import { Color } from './Style/Color';
 import { LineStyle } from './Style/LineStyle';

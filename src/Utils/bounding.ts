@@ -1,4 +1,4 @@
-import { RenderItemBounds } from '../Items/RenderItem';
+import { RenderItemBounds } from '../Base/RenderItem';
 
 /**
  * Utility to check if two bounding boxes is overlaping.

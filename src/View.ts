@@ -1,4 +1,4 @@
-import { RenderItem } from './Items/RenderItem';
+import { RenderItem } from './Base/RenderItem';
 import { overlapBoundings } from './Utils/bounding';
 import { SerializationUtils } from './SerializationUtils';
 

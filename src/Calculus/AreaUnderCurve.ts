@@ -1,6 +1,6 @@
 import { View } from '../View';
-import { RenderItem, RenderItemCreateOptions, RenderItemBounds } from '../Items/RenderItem';
-import { FunctionItem } from '../Items/FunctionItem';
+import { RenderItem, RenderItemCreateOptions, RenderItemBounds } from '../Base/RenderItem';
+import { FunctionItem } from './FunctionItem';
 import { overlapBoundings } from '../Utils/bounding';
 import { applyProps } from '../Utils/props';
 import { LineStyleOptions, LineStyle } from '../Style/LineStyle';
