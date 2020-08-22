@@ -1,5 +1,21 @@
 import { RenderItem } from './Items/RenderItem';
 import { overlapBoundings } from './Utils/bounding';
+import { SerializationUtils } from './SerializationUtils';
+
+interface ViewDeserializationHelper {
+    zoom: {
+        x: number;
+        y: number;
+    };
+    translation: {
+        x: number;
+        y: number;
+    };
+    items: {
+        id: string;
+        data: any;
+    }[];
+}
 
 export class View {
     /**
@@ -175,5 +191,23 @@ export class View {
             const idx = this.onRenderBeginEventHandlers.indexOf(fn);
             this.onRenderBeginEventHandlers.splice(idx, 1);
         }
+    }
+
+    serialize(): string {
+        const obj = {
+            zoom: this.zoom,
+            translation: this.translation,
+            items: SerializationUtils.serializeItemsCollectionAsObject(this.items)
+        };
+        return JSON.stringify(obj);
+    }
+
+    static deserialize(content: string, element: HTMLCanvasElement): View {
+        const obj = JSON.parse(content) as ViewDeserializationHelper;
+        const view = new View(element);
+        view.zoom = obj.zoom;
+        view.translation = obj.translation;
+        view.items = SerializationUtils.deserializeItemsCollection(JSON.stringify(obj.items));
+        return view;
     }
 }

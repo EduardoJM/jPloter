@@ -47,7 +47,7 @@ export class SerializationUtils {
         ];
     }
 
-    static serializeItemsCollection(items: RenderItem[]): string {
+    static serializeItemsCollectionAsObject(items: RenderItem[]): JSONjPlotItemData[] {
         if (!SerializationUtils.serializations) {
             SerializationUtils.register();
         }
@@ -63,6 +63,11 @@ export class SerializationUtils {
                 throw new Error(`Invalid item identifier: "${id}".`);
             }
         });
+        return maped;
+    }
+
+    static serializeItemsCollection(items: RenderItem[]): string {
+        const maped = SerializationUtils.serializeItemsCollectionAsObject(items);
         return JSON.stringify(maped);
     }
 
