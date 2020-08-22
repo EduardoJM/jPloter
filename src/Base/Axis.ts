@@ -1,6 +1,7 @@
 import { RenderItem, RenderItemCreateOptions, RenderItemBounds } from './RenderItem';
 import { View } from '../View';
 import { applyProps } from '../Utils/props';
+import { overlapBoundings } from '../Utils/bounding';
 import { LineStyle, LineStyleOptions } from '../Style/LineStyle';
 
 export interface AxisCreateOptions extends RenderItemCreateOptions {
@@ -264,10 +265,10 @@ export class Axis implements RenderItem {
     }
 
     getBounding(view: View): RenderItemBounds {
-        let boundingLeft = 0;
-        let boundingTop = 0;
-        let boundingRight = 0;
-        let boundingBottom = 0;
+        let boundingLeft = 1000000000;
+        let boundingTop = 1000000000;
+        let boundingRight = -1000000000;
+        let boundingBottom = -1000000000;
 
         const { x: middleX, y: middleY } = view.spacePointToCanvas(0, 0);
         const left = 0;
@@ -299,6 +300,18 @@ export class Axis implements RenderItem {
                     boundingBottom = Math.max(boundingBottom, middleY + (sz + 40));
                 }
             }
+        }
+        const screenBounds = { left: 0, top: 0, right: view.canvas.width, bottom: view.canvas.height };
+        if (!overlapBoundings(screenBounds, {
+            left: boundingLeft,
+            right: boundingRight,
+            bottom: boundingBottom,
+            top: boundingTop
+        })) {
+            boundingLeft = 1000000000;
+            boundingTop = 1000000000;
+            boundingRight = -1000000000;
+            boundingBottom = -1000000000;
         }
         if (this.yAxis) {
             boundingLeft = Math.min(boundingLeft, middleX - (this.yAxisStyle.lineWidth / 2));
