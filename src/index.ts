@@ -17,6 +17,7 @@ export * from './Calculus/FunctionItem';
 // Geometry
 export * from './Geometry/Point';
 export * from './Geometry/LineSegment';
+export * from './Geometry/Circle';
 
 import { View } from './View';
 import { Mouse } from './Mouse';
@@ -29,6 +30,7 @@ import { AreaUnderCurve } from './Calculus/AreaUnderCurve';
 // Geometry
 import { Point } from './Geometry/Point';
 import { LineSegment } from './Geometry/LineSegment';
+import { Circle } from './Geometry/Circle';
 // Styles
 import { Color } from './Style/Color';
 import { LineStyle } from './Style/LineStyle';
@@ -54,5 +56,6 @@ export default {
     FunctionItem,
     // Complementary Items
     AreaUnderCurve,
-    LineSegment
+    LineSegment,
+    Circle
 };

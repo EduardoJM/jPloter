@@ -71,6 +71,16 @@
                 }
             }));
 
+            view.items.push(new jPlot.Point({
+                name: 'N',
+                x: -1,
+                y: 2
+            }));
+            view.items.push(new jPlot.Circle({
+                centerPointName: 'N',
+                radius: 1,
+            }));
+
             view.items.push(new jPlot.Axis());
 
             view.zoom = { x: 100, y: 100 };
@@ -87,9 +97,11 @@
 
             view.render();
             
+            /*
             setInterval(function() {
                 console.log(view.renderList);
             }, 1000);
+            */
         });
     </script>
 </body>
