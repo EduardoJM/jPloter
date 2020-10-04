@@ -1,4 +1,8 @@
-import { RenderItem, RenderItemCreateOptions, RenderItemBounds } from '../Base/RenderItem';
+import {
+    RenderItem,
+    RenderItemCreateOptions,
+    RenderItemBounds
+} from '../Base/RenderItem';
 import { View } from '../View';
 import { applyProps } from '../Utils/props';
 import { LineStyle, LineStyleOptions } from '../Style/LineStyle';
@@ -22,6 +26,12 @@ export interface CircleCreateOptions extends RenderItemCreateOptions {
     fill?: boolean;
 
     fillStyle?: FillStyleOptions;
+}
+
+export interface CircleCapturePointOptions {
+    angle: number;
+    angleUnit?: 'degree' | 'radian';
+    borderPadding?: number;
 }
 
 export class Circle implements RenderItem {
@@ -94,5 +104,31 @@ export class Circle implements RenderItem {
             this.strokeStyle.applyTo(view.context);
             view.context.stroke();
         }
+    }
+
+    getPoint(view: View, options: CircleCapturePointOptions): {
+        x: number;
+        y: number;
+    } {
+        if (!this.centerPoint) {
+            return { x: 0, y: 0 };
+        }
+        let angleX = Math.cos(options.angle);
+        let angleY = Math.sin(options.angle);
+        if (options.angleUnit === 'degree') {
+            angleX = Math.cos(options.angle * 180 / Math.PI);
+            angleY = Math.sin(options.angle * 180 / Math.PI);
+        }
+        let padBorder = 0;
+        if (options.borderPadding !== undefined) {
+            padBorder = options.borderPadding;
+        }
+        const radius = this.radius - padBorder;
+        const cx = angleX * radius;
+        const cy = angleY * radius;
+        return {
+            x: this.centerPoint.x + cx,
+            y: this.centerPoint.y + cy
+        };
     }
 }

@@ -16,6 +16,7 @@ export * from './Calculus/AreaUnderCurve';
 export * from './Calculus/FunctionItem';
 // Geometry
 export * from './Geometry/Point';
+export * from './Geometry/PointCaptureCreateOptions';
 export * from './Geometry/LineSegment';
 export * from './Geometry/Circle';
 

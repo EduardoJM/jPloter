@@ -32,6 +32,12 @@ export interface FunctionItemCreateOptions extends RenderItemCreateOptions {
     domainEnd?: number;
 }
 
+export interface FunctionItemCapturePointOptions {
+    x: number;
+    yPadding?: number;
+    xPadding?: number;
+}
+
 export class FunctionItem implements RenderItem {
     /**
      * name of the item.
@@ -238,5 +244,23 @@ export class FunctionItem implements RenderItem {
             domainStart: item.domainStart,
             domainEnd: item.domainEnd,
         };
+    }
+
+    getPoint(view: View, options: FunctionItemCapturePointOptions): {
+        x: number;
+        y: number;
+    } {
+        if (!view.evaluate) {
+            return { x: 0, y: 0 };
+        }
+        try {
+            const fx = view.evaluate(this.function, options.x);
+            return {
+                x: options.x + (options.xPadding !== undefined ? options.xPadding : 0),
+                y: fx + (options.yPadding !== undefined ? options.yPadding : 0)
+            };
+        } catch(err) {
+            return { x: 0, y: 0 };
+        }
     }
 }

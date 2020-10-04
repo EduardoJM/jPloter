@@ -48,4 +48,9 @@ export interface RenderItem {
     getBounding: (view: View) => RenderItemBounds;
 
     getSerializationId: () => string;
+
+    getPoint?: (view: View, options: any) => {
+        x: number;
+        y: number;
+    };
 }

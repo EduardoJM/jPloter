@@ -76,9 +76,30 @@
                 x: -1,
                 y: 2
             }));
+
             view.items.push(new jPlot.Circle({
+                name: 'circleX',
                 centerPointName: 'N',
                 radius: 1,
+            }));
+
+            view.items.push(new jPlot.FunctionItem({
+                name: 'funQ',
+                function: 'x^2',
+                domainStart: 0,
+                domainEnd: 1
+            }));
+
+            view.items.push(new jPlot.Point({
+                capturePoint: true,
+                captureObjectName: 'circleX',
+                captureOptions: { angle: 35, angleUnit: 'degree', borderPadding: 0.1 }
+            }));
+
+            view.items.push(new jPlot.Point({
+                capturePoint: true,
+                captureObjectName: 'funQ',
+                captureOptions: { x: 0.5 }
             }));
 
             view.items.push(new jPlot.Axis());

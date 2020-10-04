@@ -5,6 +5,7 @@ import { LineStyle, LineStyleOptions } from '../Style/LineStyle';
 import { FillStyle } from '../Style/FillStyle';
 import { FillStyleOptions } from '../Style/FillStyleOptions';
 import { SolidFill } from '../Style/SolidFill';
+import { PointCaptureCreateOptions } from './PointCaptureCreateOptions';
 
 /**
  * Options for point creation.
@@ -18,6 +19,13 @@ export interface PointCreateOptions extends RenderItemCreateOptions {
      * y position of the point.
      */
     y?: number;
+
+    capturePoint?: boolean;
+
+    captureObjectName?: string;
+
+    captureOptions?: PointCaptureCreateOptions;
+
     /**
      * the fill style of the point.
      */
@@ -55,6 +63,12 @@ export class Point implements RenderItem {
      */
     y: number;
 
+    capturePoint: boolean;
+
+    captureObjectName: string;
+
+    captureOptions: PointCaptureCreateOptions;
+
     /**
      * the fill style of the point.
      */
@@ -79,6 +93,9 @@ export class Point implements RenderItem {
         this.name = '';
         this.x = 0;
         this.y = 0;
+        this.capturePoint = false;
+        this.captureObjectName = '';
+        this.captureOptions = {};
         this.fillStyle = new SolidFill();
         this.stroke = false;
         this.strokeStyle = new LineStyle();
@@ -86,12 +103,25 @@ export class Point implements RenderItem {
 
         applyProps(opts, this);
     }
+
+    private getThisPoint(view: View): { x: number; y: number; } {
+        if (this.capturePoint) {
+            const obj = view.getItemByName(this.captureObjectName);
+            if (obj) {
+                if (obj.getPoint) {
+                    return obj.getPoint(view, this.captureOptions);
+                }
+            }
+        }
+        return { x: this.x, y: this.y };
+    }
     
     render(view: View): void {
         if (this.pointSize <= 0) {
             return;
         }
-        const { x : px, y: py } = view.spacePointToCanvas(this.x, this.y);
+        const { x, y } = this.getThisPoint(view);
+        const { x : px, y: py } = view.spacePointToCanvas(x, y);
         this.fillStyle.applyTo(view.context);
         view.context.beginPath();
         view.context.arc(
@@ -114,7 +144,8 @@ export class Point implements RenderItem {
         if (this.pointSize <= 0) {
             return empty;
         }
-        const { x : px, y: py } = view.spacePointToCanvas(this.x, this.y);
+        const { x, y } = this.getThisPoint(view);
+        const { x : px, y: py } = view.spacePointToCanvas(x, y);
         return {
             left: px - this.pointSize,
             top: py - this.pointSize,
