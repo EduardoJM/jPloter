@@ -3,6 +3,7 @@ import { Point, PointCreateOptions } from './Geometry/Point';
 import { Axis, AxisCreateOptions } from './Base/Axis';
 import { FunctionItem, FunctionItemCreateOptions } from './Calculus/FunctionItem';
 import { AreaUnderCurve, AreaUnderCurveCreateOptions } from './Calculus/AreaUnderCurve';
+import { Circle, CircleCreateOptions } from './Geometry/Circle';
 
 export interface ItemSerialization {
     id: string;
@@ -44,6 +45,11 @@ export class SerializationUtils {
                 deserialize: (data) => AreaUnderCurve.deserialize(data as AreaUnderCurveCreateOptions),
                 serialize: (item) => AreaUnderCurve.serialize(item as AreaUnderCurve)
             },
+            {
+                id: 'circle',
+                deserialize: (data) => Circle.deserialize(data as CircleCreateOptions),
+                serialize: (item) => Circle.serialize(item as Circle)
+            }
         ];
     }
 

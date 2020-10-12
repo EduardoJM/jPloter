@@ -83,10 +83,6 @@ export class Circle implements RenderItem {
         };
     }
 
-    getSerializationId(): string {
-        return 'circle';
-    }
-
     render(view: View): void {
         if (!this.centerPoint) {
             return;
@@ -131,6 +127,25 @@ export class Circle implements RenderItem {
         return {
             x: this.centerPoint.x + cx,
             y: this.centerPoint.y + cy
+        };
+    }
+
+    getSerializationId(): string {
+        return 'circle';
+    }
+
+    static deserialize(data: CircleCreateOptions): RenderItem {
+        return new Point(data);
+    }
+
+    static serialize(item: Circle): CircleCreateOptions {
+        return {
+            centerPointName: item.centerPointName,
+            radius: item.radius,
+            stroke: item.stroke,
+            strokeStyle: item.strokeStyle.serialize(),
+            fill: item.fill,
+            fillStyle: item.fillStyle.serialize()
         };
     }
 }
