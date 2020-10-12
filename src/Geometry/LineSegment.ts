@@ -66,10 +66,6 @@ export class LineSegment implements RenderItem {
         };
     }
 
-    getSerializationId(): string {
-        return 'lineSegment';
-    }
-
     render(view: View): void {
         if (!this.stroke || !this.firstPoint || !this.secondPoint) {
             return;
@@ -83,5 +79,22 @@ export class LineSegment implements RenderItem {
         view.context.lineTo(p2.x, p2.y);
         this.strokeStyle.applyTo(view.context);
         view.context.stroke();
+    }
+
+    getSerializationId(): string {
+        return 'lineSegment';
+    }
+
+    static deserialize(data: LineSegmentCreateOptions): RenderItem {
+        return new LineSegment(data);
+    }
+
+    static serialize(item: LineSegment): LineSegmentCreateOptions {
+        return {
+            firstPointName: item.firstPointName,
+            secondPointName: item.secondPointName,
+            stroke: item.stroke,
+            strokeStyle: item.strokeStyle.serialize(),
+        };
     }
 }
