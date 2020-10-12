@@ -116,8 +116,10 @@ export class Circle implements RenderItem {
         let angleX = Math.cos(options.angle);
         let angleY = Math.sin(options.angle);
         if (options.angleUnit === 'degree') {
-            angleX = Math.cos(options.angle * 180 / Math.PI);
-            angleY = Math.sin(options.angle * 180 / Math.PI);
+            // 180 - pi
+            //  n  - x
+            angleX = Math.cos(options.angle * Math.PI / 180);
+            angleY = Math.sin(options.angle * Math.PI / 180);
         }
         let padBorder = 0;
         if (options.borderPadding !== undefined) {
