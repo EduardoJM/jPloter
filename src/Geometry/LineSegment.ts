@@ -74,12 +74,10 @@ export class LineSegment implements RenderItem {
         if (!this.stroke || !this.firstPoint || !this.secondPoint) {
             return;
         }
-        const minX = Math.min(this.firstPoint.x, this.secondPoint.x);
-        const maxX = Math.max(this.firstPoint.x, this.secondPoint.x);
-        const minY = Math.min(this.firstPoint.y, this.secondPoint.y);
-        const maxY = Math.max(this.firstPoint.y, this.secondPoint.y);
-        const p1 = view.spacePointToCanvas(minX, minY);
-        const p2 = view.spacePointToCanvas(maxX, maxY);
+        const { x: firstX, y: firstY } = this.firstPoint.getPointCoords(view);
+        const { x: secondX, y: secondY } = this.secondPoint.getPointCoords(view);
+        const p1 = view.spacePointToCanvas(firstX, firstY);
+        const p2 = view.spacePointToCanvas(secondX, secondY);
         view.context.beginPath();
         view.context.moveTo(p1.x, p1.y);
         view.context.lineTo(p2.x, p2.y);

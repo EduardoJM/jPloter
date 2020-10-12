@@ -109,7 +109,7 @@ export class Point implements RenderItem {
         applyProps(opts, this);
     }
 
-    private getThisPoint(view: View): { x: number; y: number; } {
+    getPointCoords(view: View): { x: number; y: number; } {
         if (this.capturePoint) {
             const obj = view.getItemByName(this.captureObjectName);
             if (obj) {
@@ -125,7 +125,7 @@ export class Point implements RenderItem {
         if (this.pointSize <= 0) {
             return;
         }
-        const { x, y } = this.getThisPoint(view);
+        const { x, y } = this.getPointCoords(view);
         const { x : px, y: py } = view.spacePointToCanvas(x, y);
         view.context.beginPath();
         view.context.arc(
@@ -151,7 +151,7 @@ export class Point implements RenderItem {
         if (this.pointSize <= 0) {
             return empty;
         }
-        const { x, y } = this.getThisPoint(view);
+        const { x, y } = this.getPointCoords(view);
         const { x : px, y: py } = view.spacePointToCanvas(x, y);
         return {
             left: px - this.pointSize,
