@@ -1,4 +1,6 @@
 node_modules
 demo/dist
 demo/tests
+# remove the demo/Enem in the future
+demo/Enem
 dist
