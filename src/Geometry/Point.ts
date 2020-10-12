@@ -26,6 +26,8 @@ export interface PointCreateOptions extends RenderItemCreateOptions {
 
     captureOptions?: PointCaptureCreateOptions;
 
+    fill?: boolean;
+
     /**
      * the fill style of the point.
      */
@@ -69,6 +71,8 @@ export class Point implements RenderItem {
 
     captureOptions: PointCaptureCreateOptions;
 
+    fill: boolean;
+
     /**
      * the fill style of the point.
      */
@@ -96,6 +100,7 @@ export class Point implements RenderItem {
         this.capturePoint = false;
         this.captureObjectName = '';
         this.captureOptions = {};
+        this.fill = true;
         this.fillStyle = new SolidFill();
         this.stroke = false;
         this.strokeStyle = new LineStyle();
@@ -122,7 +127,6 @@ export class Point implements RenderItem {
         }
         const { x, y } = this.getThisPoint(view);
         const { x : px, y: py } = view.spacePointToCanvas(x, y);
-        this.fillStyle.applyTo(view.context);
         view.context.beginPath();
         view.context.arc(
             px,
@@ -132,7 +136,10 @@ export class Point implements RenderItem {
             2 * Math.PI,
             false
         );
-        view.context.fill();
+        if (this.fill) {
+            this.fillStyle.applyTo(view.context);
+            view.context.fill();
+        }
         if (this.stroke && this.strokeStyle.lineWidth > 0) {
             this.strokeStyle.applyTo(view.context);
             view.context.stroke();
