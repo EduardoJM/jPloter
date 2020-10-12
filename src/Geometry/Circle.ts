@@ -135,11 +135,12 @@ export class Circle implements RenderItem {
     }
 
     static deserialize(data: CircleCreateOptions): RenderItem {
-        return new Point(data);
+        return new Circle(data);
     }
 
     static serialize(item: Circle): CircleCreateOptions {
         return {
+            name: item.name,
             centerPointName: item.centerPointName,
             radius: item.radius,
             stroke: item.stroke,

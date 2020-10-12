@@ -91,6 +91,7 @@ export class LineSegment implements RenderItem {
 
     static serialize(item: LineSegment): LineSegmentCreateOptions {
         return {
+            name: item.name,
             firstPointName: item.firstPointName,
             secondPointName: item.secondPointName,
             stroke: item.stroke,
