@@ -20,6 +20,8 @@ export * from './Geometry/PointCaptureCreateOptions';
 export * from './Geometry/LineSegment';
 export * from './Geometry/Circle';
 
+export * from './Text/MathExpression';
+
 import { View } from './View';
 import { Mouse } from './Mouse';
 import { SerializationUtils } from './SerializationUtils';
@@ -32,6 +34,8 @@ import { AreaUnderCurve } from './Calculus/AreaUnderCurve';
 import { Point } from './Geometry/Point';
 import { LineSegment } from './Geometry/LineSegment';
 import { Circle } from './Geometry/Circle';
+// Text
+import { MathExpression } from './Text/MathExpression';
 // Styles
 import { Color } from './Style/Color';
 import { LineStyle } from './Style/LineStyle';
@@ -58,5 +62,7 @@ export default {
     // Complementary Items
     AreaUnderCurve,
     LineSegment,
-    Circle
+    Circle,
+    // Text
+    MathExpression
 };

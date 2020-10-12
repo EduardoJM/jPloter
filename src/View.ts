@@ -67,6 +67,11 @@ export class View {
     evaluate?: (expr: string, x: number) => number;
 
     /**
+     * render to string KaTeX method (used in MathExpression).
+     */
+    renderKaTeX?: (expr: string) => string;
+
+    /**
      * the current render list.
      */
     renderList: RenderItem[];
